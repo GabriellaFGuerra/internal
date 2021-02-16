@@ -15,31 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home.index')->name('home');
 
-Route::get('/blueprints', function () {
-    return view('blueprints.index');
-})->name('blueprints');
-Route::get('/blueprints/{slug}', function ($slug) {
-    return view('blueprints.blueprint', ['slug' => $slug]);
-})->name('blueprint');
+Route::get('/blueprints', 'BlueprintController@index')->name('blueprints');
+Route::get('/blueprints/{slug}', 'BlueprintController@show')->name('blueprint');
 
-Route::get('/documents', function () {
-    return view('documents.index');
-})->name('documents');
-Route::get('/documents/{slug}', function ($slug) {
-    return view('documents.document', ['slug' => $slug]);
-})->name('document');
+Route::get('/documents', 'DocumentController@index')->name('documents');
+Route::get('/documents/{slug}', 'DocumentController@show')->name('document');
 
-Route::get('/projects', function () {
-    return view('projects.index');
-})->name('projects');
-Route::get('/projects/{slug}', function ($slug) {
-    return view('projects.project', ['slug' => $slug]);
-})->name('project');
+Route::get('/projects', 'ProjectController@index')->name('projects');
+Route::get('/projects/{slug}', 'ProjectController@show')->name('project');
 
-Route::get('/purchases', function () {
-    return view('purchases.index');
-})->name('purchases');
+Route::get('/purchases', 'PurchaseController@index')->name('purchases');
 
-Route::get('/stock', function () {
-    return view('stock.index');
-})->name('stock');
+Route::get('/stock', 'StockController@index')->name('stock');
