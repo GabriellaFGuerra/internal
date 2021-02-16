@@ -13,6 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+<<<<<<< HEAD
 Route::get('/', function () {
     return view('welcome');
 });
+=======
+Route::view('/', 'home.index')->name('home');
+
+Route::get('/blueprints', 'BlueprintController@index')->name('blueprints');
+Route::get('/blueprints/{slug}', 'BlueprintController@show')->name('blueprint');
+
+Route::get('/documents', 'DocumentController@index')->name('documents');
+Route::get('/documents/{slug}', 'DocumentController@show')->name('document');
+
+Route::get('/projects', 'ProjectController@index')->name('projects');
+Route::get('/projects/{slug}', 'ProjectController@show')->name('project');
+
+Route::get('/purchases', 'PurchaseController@index')->name('purchases');
+
+Route::get('/stock', 'StockController@index')->name('stock');
+>>>>>>> release/1.3.0
