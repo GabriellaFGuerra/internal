@@ -10,9 +10,4 @@ class DocumentController extends Controller
     {
         return view('documents.index');
     }
-
-    public function show($slug)
-    {
-        return view('documents.document', ['slug' => $slug]);
-    }
 }

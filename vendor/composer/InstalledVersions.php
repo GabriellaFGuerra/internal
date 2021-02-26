@@ -25,12 +25,12 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => 'v8.5.9',
-    'version' => '8.5.9.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => 'e53598ca34099d06a78c45837cc9dc5b14fea9b6',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -174,6 +174,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'df7933820090489623ce0be5e85c7e693638e536',
+    ),
+    'froala/wysiwyg-editor-php-sdk' => 
+    array (
+      'pretty_version' => '3.2.5',
+      'version' => '3.2.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5eb153885d331d95d2c9e51055cc3b6cbe4e368a',
     ),
     'fruitcake/laravel-cors' => 
     array (
@@ -464,12 +473,12 @@ private static $installed = array (
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => 'v8.5.9',
-      'version' => '8.5.9.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => 'e53598ca34099d06a78c45837cc9dc5b14fea9b6',
     ),
     'laravel/sail' => 
     array (
@@ -515,6 +524,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '3b9dff8aaf7323590c1d2e443db701eb1f9aa0d3',
+    ),
+    'lucascudo/laravel-pt-br-localization' => 
+    array (
+      'pretty_version' => 'v1.1.5',
+      'version' => '1.1.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ec6297f950101be541062243f3fb1b7867641dbe',
     ),
     'mockery/mockery' => 
     array (
@@ -784,8 +802,8 @@ private static $installed = array (
     array (
       'provided' => 
       array (
-        0 => '1.0',
-        1 => '1.0.0',
+        0 => '1.0.0',
+        1 => '1.0',
       ),
     ),
     'psr/simple-cache' => 
