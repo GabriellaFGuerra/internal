@@ -35,7 +35,7 @@
 
 </head>
 <body>
-@if (!Route::is('login'))
+@if (!Route::is('login') and !Route::is('register'))
     <style>
         html,
         body {
