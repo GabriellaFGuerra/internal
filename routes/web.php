@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'index')->name('login');
 Route::view('/home', 'home.index')->name('home');
+Route::view('/register', 'register.index')->name('register');
 
 Route::get('/blueprints', 'BlueprintController@index')->name('blueprints');
 Route::get('/blueprints/{slug}', 'BlueprintController@show')->name('blueprint');
