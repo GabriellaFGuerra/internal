@@ -13,17 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::view('/', 'home.index')->name('home');
+Route::view('/', 'index')->name('login');
+Route::view('/home', 'home.index')->name('home');
+Route::view('/register', 'register.index')->name('register');
 
 Route::get('/blueprints', 'BlueprintController@index')->name('blueprints');
 Route::get('/blueprints/{slug}', 'BlueprintController@show')->name('blueprint');
 
 Route::get('/documents', 'DocumentController@index')->name('documents');
-Route::get('/documents/{slug}', 'DocumentController@show')->name('document');
 
 Route::get('/projects', 'ProjectController@index')->name('projects');
 Route::get('/projects/{slug}', 'ProjectController@show')->name('project');

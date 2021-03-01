@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
+    'FroalaEditor' => array($vendorDir . '/froala/wysiwyg-editor-php-sdk/lib'),
 );
