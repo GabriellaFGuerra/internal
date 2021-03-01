@@ -12,6 +12,8 @@
                     <th class="p-4 text-left text-sm font-medium text-gray-500">Valor unitário</th>
                     <th class="p-4 text-left text-sm font-medium text-gray-500">Quantidade</th>
                     <th class="p-4 text-left text-sm font-medium text-gray-500">Valor total</th>
+                    <th class="p-4 text-left text-sm font-medium text-gray-500">Fornecedor</th>
+                    <th class="p-4 text-left text-sm font-medium text-gray-500">Nota Fiscal</th>
                     <th class="p-4 text-left text-sm font-medium text-gray-500">Ações</th>
                 </tr>
                 </thead>
@@ -23,15 +25,21 @@
                     <td class="p-4 whitespace-nowrap">R$200,00</td>
                     <td class="p-4 whitespace-nowrap">1</td>
                     <td class="p-4 whitespace-nowrap">R$200,00</td>
+                    <td class="p-4 whitespace-nowrap">Placeholder</td>
                     <td class="p-4 whitespace-nowrap">
-                        <button class="focus:outline-none text-blue-500 hover:text-blue-800 hover:underline"
-                                onclick="document.getElementById('edit').showModal()">Editar
-                        </button>
+                        <a class="text-blue-500 hover:text-blue-800 hover:underline">Nota Fiscal</a>
+                    </td>
+                    <td class="p-4 whitespace-nowrap">
+                        <a class="text-blue-500 hover:text-blue-800 hover:underline"
+                           onclick="document.getElementById('edit').showModal()">Editar
+                        </a>
                     </td>
                 </tr>
                 </tbody>
                 <tfoot>
                 <tr>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -135,6 +143,17 @@
                     <input
                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                         id="grid-category" type="text" placeholder="Categoria">
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-full px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                               for="grid-provider">
+                            Fornecedor
+                        </label>
+                        <input
+                            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                            id="grid-provider" type="text" placeholder="Fornecedor">
+                    </div>
                 </div>
                 <div class="md:w-full px-3">
                     <div class="bg-white p7 rounded w-9/12 mx-auto">
@@ -375,6 +394,17 @@
                     <input
                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                         id="grid-category" type="text" placeholder="Categoria">
+                </div>
+                <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-full px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                               for="grid-provider">
+                            Fornecedor
+                        </label>
+                        <input
+                            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                            id="grid-provider" type="text" placeholder="Fornecedor">
+                    </div>
                 </div>
                 <div class="md:w-full px-3">
                     <div class="bg-white p7 rounded w-9/12 mx-auto">
