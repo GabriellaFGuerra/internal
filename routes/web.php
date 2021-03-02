@@ -14,15 +14,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::view('/forgotpassword', 'forgotpassword.index')->name('forgotpassword');
+Route::get('/forgotpassword', 'Auth\ForgotPasswordController@index')->name('forgotpassword')->middleware('guest');
+Route::post('/forgotpassword', 'Auth\ForgotPasswordController@getemail')->name('getemail')->middleware('guest');
+
+Route::get('/recovery/{email}/{token}', 'Auth\RecoveryController@index')->name('recovery')->middleware('guest');
+Route::post('/recovery', 'Auth\RecoveryController@recover')->name('recover')->middleware('guest');
 
 Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
-Route::get('/', 'Auth\LoginController@index')->name('login');
-Route::post('/', 'Auth\LoginController@auth')->name('login.auth');
+Route::get('/', 'Auth\LoginController@index')->name('login')->middleware('guest');
+Route::post('/', 'Auth\LoginController@auth')->name('login.auth')->middleware('guest');
 
-Route::get('/register', 'UserController@index')->name('register');
-Route::post('/register', 'UserController@store')->name('register.store');
+Route::get('/register', 'UserController@index')->name('register')->middleware('guest');
+Route::post('/register', 'UserController@store')->name('register.store')->middleware('guest');
 
 Route::view('/home', 'home.index')->name('home')->middleware('auth');
 
