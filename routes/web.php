@@ -13,18 +13,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'index')->name('login');
-Route::view('/home', 'home.index')->name('home');
-Route::view('/register', 'register.index')->name('register');
 
-Route::get('/blueprints', 'BlueprintController@index')->name('blueprints');
-Route::get('/blueprints/{slug}', 'BlueprintController@show')->name('blueprint');
+Route::view('/forgotpassword', 'forgotpassword.index')->name('forgotpassword');
 
-Route::get('/documents', 'DocumentController@index')->name('documents');
+Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
 
-Route::get('/projects', 'ProjectController@index')->name('projects');
-Route::get('/projects/{slug}', 'ProjectController@show')->name('project');
+Route::get('/', 'Auth\LoginController@index')->name('login');
+Route::post('/', 'Auth\LoginController@auth')->name('login.auth');
 
-Route::get('/purchases', 'PurchaseController@index')->name('purchases');
+Route::get('/register', 'UserController@index')->name('register');
+Route::post('/register', 'UserController@store')->name('register.store');
 
-Route::get('/stock', 'StockController@index')->name('stock');
+Route::view('/home', 'home.index')->name('home')->middleware('auth');
+
+Route::get('/blueprints', 'BlueprintController@index')->name('blueprints')->middleware('auth');
+Route::get('/blueprints/{slug}', 'BlueprintController@show')->name('blueprint')->middleware('auth');
+
+Route::get('/documents', 'DocumentController@index')->name('documents')->middleware('auth');
+
+Route::get('/projects', 'ProjectController@index')->name('projects')->middleware('auth');
+Route::get('/projects/{slug}', 'ProjectController@show')->name('project')->middleware('auth');
+
+Route::get('/purchases', 'PurchaseController@index')->name('purchases')->middleware('auth');
+
+Route::get('/stock', 'StockController@index')->name('stock')->middleware('auth');
