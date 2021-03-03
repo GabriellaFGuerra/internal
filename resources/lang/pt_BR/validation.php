@@ -182,6 +182,7 @@ return [
         'year' => 'ano',
         'description' => 'descrição',
         'password_confirmation' => 'confirmação da senha',
+        'oldpassword' => 'senha atual'
     ],
 
 ];

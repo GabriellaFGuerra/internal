@@ -41,3 +41,6 @@ Route::get('/projects/{slug}', 'ProjectController@show')->name('project')->middl
 Route::get('/purchases', 'PurchaseController@index')->name('purchases')->middleware('auth');
 
 Route::get('/stock', 'StockController@index')->name('stock')->middleware('auth');
+
+Route::get('/profile', 'UserController@profile')->name('profile')->middleware('auth');
+Route::post('/profile', 'UserController@resetpassword')->name('resetpassword')->middleware('auth');
