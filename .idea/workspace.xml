@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7a9eb7bb-9695-46ce-be8a-8464cee92b78" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/profile/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/documents/trash.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/pt_BR/validation.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/pt_BR/validation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layout/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layout/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DocumentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/DocumentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Document.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Document.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_03_01_095559_create_documents_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_03_01_095559_create_documents_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/documents/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/documents/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +41,7 @@
     <setting file="file://$PROJECT_DIR$/app/Http/Controllers/DocumentController.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/app/Http/Controllers/ProjectController.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/ForgotPasswordController.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/resources/views/documents/trash.blade.php" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/app/Http/Controllers/BlueprintController.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/config/app.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
@@ -183,7 +184,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/forgotpassword" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/documents" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -196,6 +197,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/views/documents" />
       <recent name="$PROJECT_DIR$/resources/views/forgotpassword" />
     </key>
   </component>
@@ -218,7 +220,7 @@
       <workItem from="1614685351375" duration="996000" />
       <workItem from="1614687299188" duration="7998000" />
       <workItem from="1614698048975" duration="17109000" />
-      <workItem from="1614771107576" duration="9325000" />
+      <workItem from="1614771107576" duration="20205000" />
     </task>
     <servers />
   </component>

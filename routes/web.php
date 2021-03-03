@@ -34,6 +34,12 @@ Route::get('/blueprints', 'BlueprintController@index')->name('blueprints')->midd
 Route::get('/blueprints/{slug}', 'BlueprintController@show')->name('blueprint')->middleware('auth');
 
 Route::get('/documents', 'DocumentController@index')->name('documents')->middleware('auth');
+Route::post('/documents', 'DocumentController@upload')->name('uploadDoc')->middleware('auth');
+Route::get('/documents/download/{id}', 'DocumentController@download')->name('downloadDoc')->middleware('auth');
+Route::get('/documents/delete/{id}', 'DocumentController@delete')->name('deleteDoc')->middleware('auth');
+Route::get('/documents/trash', 'DocumentController@trash')->name('trashDoc')->middleware('auth');
+Route::get('/documents/trash/restore/{id}', 'DocumentController@restore')->name('restoreDoc')->middleware('auth');
+Route::get('/documents/trash/permadelete/{id}', 'DocumentController@permadelete')->name('permadeleteDoc')->middleware('auth');
 
 Route::get('/projects', 'ProjectController@index')->name('projects')->middleware('auth');
 Route::get('/projects/{slug}', 'ProjectController@show')->name('project')->middleware('auth');
