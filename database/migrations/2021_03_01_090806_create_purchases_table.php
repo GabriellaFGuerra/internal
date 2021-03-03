@@ -16,8 +16,8 @@ class CreatePurchasesTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->string('item');
-            $table->foreignId('category_id')->constrained();
-            $table->foreignId('project_id')->constrained();
+            $table->foreignId('category_id')->nullable()->constrained();
+            $table->foreignId('project_id')->nullable()->constrained();
             $table->double('unit_value', 10, 2);
             $table->integer('quantity');
             $table->double('total_value', 10, 2);

@@ -45,6 +45,9 @@ Route::get('/projects', 'ProjectController@index')->name('projects')->middleware
 Route::get('/projects/{slug}', 'ProjectController@show')->name('project')->middleware('auth');
 
 Route::get('/purchases', 'PurchaseController@index')->name('purchases')->middleware('auth');
+Route::get('/purchases/download/{id}', 'PurchaseController@download')->name('downloadInvoice')->middleware('auth');
+Route::post('/purchases', 'PurchaseController@create')->name('newPurchase')->middleware('auth');
+Route::post('/purchases/edit', 'PurchaseController@edit')->name('editPurchase')->middleware('auth');
 
 Route::get('/stock', 'StockController@index')->name('stock')->middleware('auth');
 
