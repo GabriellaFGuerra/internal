@@ -1,8 +1,6 @@
 @extends('layout.index', ['title' => 'Register'])
 
 @section('content')
-    <!-- component -->
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
 
     <div class="container max-w-full mx-auto md:py-24 px-6">
         <div class="max-w-sm mx-auto px-6">
@@ -12,41 +10,43 @@
                         <div class="text-center font-semibold text-black">
                             Cadastre-se para acessar o painel
                         </div>
-                        <form class="mt-8" x-data="{password: '',password_confirm: ''}">
+                        <form method="POST" action="{{route('register.store')}}" class="mt-8"
+                              x-data="{password: '',password_confirm: ''}">
+                            @csrf
                             <div class="mx-auto max-w-lg ">
                                 <div class="py-1">
                                     <span class="px-1 text-sm text-gray-600">Nome</span>
-                                    <input placeholder="" type="text"
+                                    <input name="firstname" type="text"
                                            class="text-md block px-3 py-2 rounded-lg w-full
                 bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
                                 </div>
                                 <div class="py-1">
                                     <span class="px-1 text-sm text-gray-600">Sobrenome</span>
-                                    <input placeholder="" type="text"
+                                    <input name="lastname" type="text"
                                            class="text-md block px-3 py-2 rounded-lg w-full
                 bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
                                 </div>
                                 <div class="py-1">
                                     <span class="px-1 text-sm text-gray-600">Cargo</span>
-                                    <input placeholder="" type="text"
+                                    <input name="role" type="text"
                                            class="text-md block px-3 py-2 rounded-lg w-full
                 bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
                                 </div>
                                 <div class="py-1">
                                     <span class="px-1 text-sm text-gray-600">Email</span>
-                                    <input placeholder="" type="email"
+                                    <input name="email" type="email"
                                            class="text-md block px-3 py-2 rounded-lg w-full
                 bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
                                 </div>
                                 <div class="py-1">
                                     <span class="px-1 text-sm text-gray-600">Senha</span>
-                                    <input placeholder="" type="password" x-model="password"
+                                    <input name="password" type="password" x-model="password"
                                            class="text-md block px-3 py-2 rounded-lg w-full
                 bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
                                 </div>
                                 <div class="py-1">
                                     <span class="px-1 text-sm text-gray-600">Confirmar senha</span>
-                                    <input placeholder="" type="password" x-model="password_confirm"
+                                    <input name="password_confirmation" type="password" x-model="password_confirm"
                                            class="text-md block px-3 py-2 rounded-lg w-full
                 bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
                                 </div>
@@ -58,14 +58,16 @@
                                                 class=" rounded-full p-1 fill-current ">
                                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                                      stroke="currentColor">
-                                                    <path x-show="password == password_confirm && password.length > 0"
-                                                          stroke-linecap="round"
-                                                          stroke-linejoin="round" stroke-width="2"
-                                                          d="M5 13l4 4L19 7"/>
-                                                    <path x-show="password != password_confirm || password.length == 0"
-                                                          stroke-linecap="round"
-                                                          stroke-linejoin="round" stroke-width="2"
-                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                    <path
+                                                        x-show="password == password_confirm && password.length > 0"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2"
+                                                        d="M5 13l4 4L19 7"/>
+                                                    <path
+                                                        x-show="password != password_confirm || password.length == 0"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2"
+                                                        d="M6 18L18 6M6 6l12 12"/>
 
                                                 </svg>
                                             </div>

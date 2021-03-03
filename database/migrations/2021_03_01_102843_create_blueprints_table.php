@@ -17,7 +17,7 @@ class CreateBlueprintsTable extends Migration
             $table->id();
             $table->string('blueprint');
             $table->string('blueprint_path');
-            $table->foreignId('project_id')->constrained();
+            $table->foreignId('project_id')->nullable()->constrained();
             $table->timestamps();
             $table->softDeletes();
         });
