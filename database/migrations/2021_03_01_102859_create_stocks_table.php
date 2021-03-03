@@ -19,7 +19,7 @@ class CreateStocksTable extends Migration
             $table->integer('quantity');
             $table->dateTime('withdrawn_datetime');
             $table->dateTime('returned_datetime');
-            $table->foreignId('category_id')->constrained();
+            $table->foreignId('category_id')->nullable()->constrained();
             $table->timestamps();
             $table->softDeletes();
         });
