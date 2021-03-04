@@ -11,6 +11,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',
     'App\\Http\\Controllers\\Auth\\LogoutController' => $baseDir . '/app/Http/Controllers/Auth/LogoutController.php',
+    'App\\Http\\Controllers\\Auth\\RecoveryController' => $baseDir . '/app/Http/Controllers/Auth/RecoveryController.php',
     'App\\Http\\Controllers\\BlueprintController' => $baseDir . '/app/Http/Controllers/BlueprintController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\DocumentController' => $baseDir . '/app/Http/Controllers/DocumentController.php',

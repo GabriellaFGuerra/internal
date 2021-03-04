@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\CategoryTrait;
 
 class PurchaseController extends Controller
 {
+    use CategoryTrait;
     public function index()
     {
         $purchases = Purchase::all();
-        return view('purchases.index')->with('purchases', $purchases);
+        $categories = $this->showCategories();
+        return view('purchases.index')->with('purchases', $purchases)->with('categories', $categories);
     }
 
     public function create(Request $request)
