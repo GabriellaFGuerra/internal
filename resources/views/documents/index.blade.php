@@ -23,14 +23,14 @@
 
                 <tbody class="text-gray-600 text-sm divide-y divide-gray-300">
                 @foreach ($documents as $document)
-                    <tr cclass="bg-white font-medium text-sm divide-y divide-gray-200">
+                    <tr class="bg-white font-medium text-sm divide-y divide-gray-200">
                         <td class="p-4 whitespace-nowrap">
                             {{ $document->id }}
                         </td>
-                        <td cclass="p-4 whitespace-nowrap">
+                        <td class="p-4 whitespace-nowrap">
                             <a href="{{ route('downloadDoc', ['id' => $document->id]) }}">{{ $document->document_name }}</a>
                         </td>
-                        <td cclass="p-4 whitespace-nowrap">
+                        <td class="p-4 whitespace-nowrap">
                             <span class="rounded bg-green-400 py-1 px-3 text-xs font-bold">Documento</span>
                         </td>
                         <td class="p-4 whitespace-nowrap">

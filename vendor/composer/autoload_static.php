@@ -530,6 +530,7 @@ class ComposerStaticInit8a0436b1f1af0ca68f2f877411e234f8
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\LogoutController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LogoutController.php',
+        'App\\Http\\Controllers\\Auth\\RecoveryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RecoveryController.php',
         'App\\Http\\Controllers\\BlueprintController' => __DIR__ . '/../..' . '/app/Http/Controllers/BlueprintController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DocumentController' => __DIR__ . '/../..' . '/app/Http/Controllers/DocumentController.php',
