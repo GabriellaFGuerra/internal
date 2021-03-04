@@ -10,11 +10,14 @@ use App\Traits\CategoryTrait;
 class PurchaseController extends Controller
 {
     use CategoryTrait;
+
     public function index()
     {
-        $purchases = Purchase::all();
+
         $categories = $this->showCategories();
+        $purchases = Purchase::with('category')->get();
         return view('purchases.index')->with('purchases', $purchases)->with('categories', $categories);
+
     }
 
     public function create(Request $request)
@@ -24,6 +27,7 @@ class PurchaseController extends Controller
             'vl_unit' => 'required',
             'quantity' => 'required|int',
             'provider' => 'required',
+            'invoice_key' => 'nullable',
             'invoice' => 'required|file|mimes:png,jpeg,jpg,pdf',
             'project_id' => 'nullable',
             'category_id' => 'nullable',
@@ -43,6 +47,7 @@ class PurchaseController extends Controller
             $save->quantity = $request->quantity;
             $save->total_value = floatval(str_replace(',', '.', $request->vl_unit)) * $request->quantity;
             $save->provider = $request->provider;
+            $save->invoice_key = $request->invoice_key;
             $save->invoice_path = $path . $invoicename;
             $save->save();
             return redirect('purchases')->with('status', 'Compra adicionada com sucesso.');
