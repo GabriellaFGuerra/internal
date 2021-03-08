@@ -57,6 +57,9 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/stock', 'StockController@index')->name('stock');
+    Route::post('/stock', 'StockController@create')->name('newStock');
+    Route::post('/stock/edit', 'StockController@edit')->name('editStock');
+
 
     Route::get('/profile', 'UserController@profile')->name('profile');
     Route::post('/profile', 'UserController@resetpassword')->name('resetpassword');

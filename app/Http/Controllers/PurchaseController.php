@@ -90,7 +90,5 @@ class PurchaseController extends Controller
         $save->provider = $request->provider;
         $save->update();
         return redirect('purchases')->with('status', 'Compra atualizada com sucesso.');
-
-
     }
 }
