@@ -2,87 +2,42 @@
 
 @section('content')
     <div class="flex flex-row flex-wrap">
-        <div style="flex: 0 0 33.333333%">
-            <div>
-                <div class="py-6 px-3">
-                    <div class="bg-white shadow-xl rounded-lg overflow-hidden">
-                        <div class="p-4">
-                            <p class="text-3xl text-gray-900"><a
-                                    href="{{route('project', ['slug' => 'nome_do_projeto'])}}">Nome do projeto</a></p>
-                            <p class="text-gray-700">Outras infos do projeto</p>
-                        </div>
-                        <div class="px-4 pt-3 pb-4 border-t border-gray-300 bg-gray-100">
-                            <div class="flex items-center pt-2">
-                                <div class="bg-cover bg-center w-10 h-10 rounded-full mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-gray-900">Responsável pelo projeto</p>
+        @foreach ($projects as $project)
+            <div style="flex: 0 0 33.333333%">
+                <div>
+                    <div class="py-6 px-3">
+                        <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+                            <div class="p-4">
+                                <p class="text-3xl text-gray-900"><a
+                                        href="{{route('project', ['name' => $project->project, 'id' => $project->id])}}">{{str_replace('_', ' ', ucwords($project->project))}}</a>
+                                </p>
+                                <p class="text-gray-700">
+                                    {{$project->address . ' - ' . $project->district}}
+                                    <br>
+                                    {{'CEP: ' . $project->zipcode}}
+                                </p>
+                            </div>
+                            <div class="px-4 pt-3 pb-4 border-t border-gray-300 bg-gray-100">
+                                <div class="flex items-center pt-2">
+                                    <div class="bg-cover bg-center w-10 h-10 rounded-full mr-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-gray-900">
+                                            {{ $project->user->firstname . ' ' . $project->user->lastname }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div style="flex: 0 0 33.333333%">
-            <div>
-                <div class="py-6 px-3">
-                    <div class="bg-white shadow-xl rounded-lg overflow-hidden">
-                        <div class="p-4">
-                            <p class="text-3xl text-gray-900"><a
-                                    href="{{route('project', ['slug' => 'nome_do_projeto'])}}">Nome do projeto</a></p>
-                            <p class="text-gray-700">Outras infos do projeto</p>
-                        </div>
-                        <div class="px-4 pt-3 pb-4 border-t border-gray-300 bg-gray-100">
-                            <div class="flex items-center pt-2">
-                                <div class="bg-cover bg-center w-10 h-10 rounded-full mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-gray-900">Responsável pelo projeto</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="flex: 0 0 33.333333%">
-            <div>
-                <div class="py-6 px-3">
-                    <div class="bg-white shadow-xl rounded-lg overflow-hidden">
-                        <div class="p-4">
-                            <p class="text-3xl text-gray-900"><a
-                                    href="{{route('project', ['slug' => 'nome_do_projeto'])}}">Nome do projeto</a></p>
-                            <p class="text-gray-700">Outras infos do projeto</p>
-                        </div>
-                        <div class="px-4 pt-3 pb-4 border-t border-gray-300 bg-gray-100">
-                            <div class="flex items-center pt-2">
-                                <div class="bg-cover bg-center w-10 h-10 rounded-full mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-gray-900">Responsável pelo projeto</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 
     <button onclick="document.getElementById('add_projeto').showModal()"
@@ -104,6 +59,10 @@
             backdrop-filter: blur(3px);
         }
 
+        .select2-container {
+            width: 100% !important;
+            padding: 0;
+        }
 
         @keyframes appear {
             from {
@@ -118,7 +77,7 @@
         }
     </style>
 
-    <dialog id="add_projeto" class="p-5 bg-white rounded-md w-1/2">
+    <dialog id="add_projeto" class="p-5 bg-white rounded-md w-1/2 h-auto">
         <div class="flex flex-col">
             <div class="flex w-full h-auto justify-center items-center">
                 <div class="flex w-10/12 h-auto py-3 justify-center items-center text-2xl font-bold">
@@ -134,85 +93,105 @@
                     </svg>
                 </div>
             </div>
-
-            <!-- component -->
-            <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
-                <div class="-mx-3 md:flex mb-6">
+            <form action="{{route('newProject')}}" method="POST">
+                @csrf
+                <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+                    <div class="-mx-3 md:flex mb-6">
+                        <div class="md:w-full px-3 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                   for="grid-name">
+                                Nome do Projeto
+                            </label>
+                            <input
+                                name="project"
+                                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                                id="grid-name" type="text" placeholder="Projeto">
+                        </div>
+                    </div>
+                    <div class="-mx-3 md:flex mb-6">
+                        <div class="md:w-full px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                   for="grid-address">
+                                Endereço
+                            </label>
+                            <input
+                                name="address"
+                                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3"
+                                id="grid-address" type="text" placeholder="Endereço">
+                        </div>
+                    </div>
+                    <div class="flex flex-row">
+                        <div class="md:w-1/2 px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                   for="grid-zip">
+                                CEP
+                            </label>
+                            <input
+                                name="zipcode"
+                                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                id="grid-zip" type="text" placeholder="CEP">
+                        </div>
+                        <div class="md:w-1/2 px-3">
+                            <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                   for="grid-neighborhood">
+                                Bairro
+                            </label>
+                            <input
+                                name="district"
+                                class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                id="grid-neighborhood" type="text" placeholder="Bairro">
+                        </div>
+                    </div>
                     <div class="md:w-full px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                               for="grid-name">
-                            Nome do Projeto
+                               for="grid-stage">
+                            Etapa
                         </label>
-                        <input
-                            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-                            id="grid-name" type="text" placeholder="Projeto">
+                        <select
+                            name="stage"
+                            class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
+                            id="grid-stage">
+                            <option value="1">Etapa 1</option>
+                            <option value="2">Etapa 2</option>
+                            <option value="3">Etapa 3</option>
+                        </select>
                     </div>
-                </div>
-                <div class="-mx-3 md:flex mb-6">
-                    <div class="md:w-full px-3">
+                    <div class="md:w-full px-3 mb-6 md:mb-0">
                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                               for="grid-address">
-                            Endereço
+                               for="grid-user">
+                            Responsável
                         </label>
-                        <input
-                            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3"
-                            id="grid-address" type="password" placeholder="Endereço">
+                        <select
+                            name="user_id"
+                            class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
+                            id="grid-user">
+                            @foreach ($users as $user)
+                                <option value="{{$user->id}}">{{$user->firstname . ' ' . $user->lastname}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
-                <div class="flex flex-row">
-                    <div class="md:w-1/2 px-3">
-                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                               for="grid-zip">
-                            CEP
-                        </label>
-                        <input
-                            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                            id="grid-zip" type="text" placeholder="CEP">
-                    </div>
-                    <div class="md:w-1/2 px-3">
-                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                               for="grid-neighborhood">
-                            Bairro
-                        </label>
-                        <input
-                            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                            id="grid-neighborhood" type="text" placeholder="Bairro">
-                    </div>
-                </div>
-                <div class="md:w-full px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                           for="grid-level">
-                        Etapa
-                    </label>
-                    <select
-                        class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
-                        id="grid-level">
-                        <option value="1">Etapa 1</option>
-                        <option value="2">Etapa 2</option>
-                        <option value="3">Etapa 3</option>
-                    </select>
-                </div>
-                <div class="md:w-full px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                           for="grid-responsible">
-                        Responsável
-                    </label>
-                    <select
-                        class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
-                        id="grid-responsible">
-                        <option value="1">Nome do usuário</option>
-                        <option value="2">Outro usuário</option>
-                        <option value="3">Outro usuário</option>
-                    </select>
-                </div>
-            </div>
 
-            <div class="flex justify-end">
-                <button type="button"
-                        class="focus:outline-none text-gray-800 text-sm py-2.5 px-5 rounded-full border border-gray-800 hover:bg-gray-100">
-                    Criar projeto
-                </button>
-            </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                            class="focus:outline-none text-gray-800 text-sm py-2.5 px-5 rounded-full border border-gray-800 hover:bg-gray-100">
+                        Criar projeto
+                    </button>
+                </div>
+            </form>
         </div>
     </dialog>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#grid-stage').select2({
+                dropdownParent: $('#add_projeto')
+            });
+
+            $('#grid-user').select2({
+                dropdownParent: $('#add_projeto')
+            });
+        });
+    </script>
 @endsection

@@ -20,8 +20,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/recovery/{email}/{token}', 'Auth\RecoveryController@index')->name('recovery')->middleware('guest');
     Route::post('/recovery', 'Auth\RecoveryController@recover')->name('recover')->middleware('guest');
 
-    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
-
     Route::get('/', 'Auth\LoginController@index')->name('login')->middleware('guest');
     Route::post('/', 'Auth\LoginController@auth')->name('login.auth')->middleware('guest');
 
@@ -30,6 +28,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
     Route::view('/home', 'home.index')->name('home');
 
     Route::get('/blueprints', 'BlueprintController@index')->name('blueprints');
@@ -46,8 +45,19 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    Route::get('/projects', 'ProjectController@index')->name('projects');
-    Route::get('/projects/{slug}', 'ProjectController@show')->name('project');
+    Route::prefix('projects')->group(function () {
+        Route::get('/', 'ProjectController@index')->name('projects');
+        Route::post('/', 'ProjectController@create')->name('newProject');
+        Route::get('/{id}/{name}', 'ProjectController@show')->name('project');
+        Route::get('/{id}/{name}/image/{img}', 'ProjectController@showImages')->name('showImage');
+        Route::get('/{id}/{name}/diary', 'ProjectController@newEntryIndex')->name('newEntry');
+        Route::post('/{id}/{name}/diary', 'ProjectController@newEntryCreate')->name('createEntry');
+        Route::get('/{id}/{name}/diary/{entry_id}', 'ProjectController@readEntry')->name('readEntry');
+        Route::get('/{id}/{name}/diary/edit/{entry}', 'ProjectController@entryEditIndex')->name('editEntry');
+    });
+
+    Route::get('/image/{image_id}', 'ProjectController@showImage')->name('showImage');
+
 
     Route::prefix('purchases')->group(function () {
         Route::get('/', 'PurchaseController@index')->name('purchases');
@@ -56,14 +66,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/edit', 'PurchaseController@edit')->name('editPurchase');
     });
 
-    Route::get('/stock', 'StockController@index')->name('stock');
-    Route::post('/stock', 'StockController@create')->name('newStock');
-    Route::post('/stock/edit', 'StockController@edit')->name('editStock');
-
+    Route::prefix('stock')->group(function () {
+        Route::get('/', 'StockController@index')->name('stock');
+        Route::post('/', 'StockController@create')->name('newStock');
+        Route::post('/edit', 'StockController@edit')->name('editStock');
+    });
 
     Route::get('/profile', 'UserController@profile')->name('profile');
     Route::post('/profile', 'UserController@resetpassword')->name('resetpassword');
-
 });
 
 

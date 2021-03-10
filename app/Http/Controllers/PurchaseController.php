@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Purchase;
+use App\Traits\ProjectTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\CategoryTrait;
@@ -10,13 +11,15 @@ use App\Traits\CategoryTrait;
 class PurchaseController extends Controller
 {
     use CategoryTrait;
+    use ProjectTrait;
 
     public function index()
     {
 
         $categories = $this->showCategories();
+        $projects = $this->showProjects();
         $purchases = Purchase::with('category')->get();
-        return view('purchases.index')->with('purchases', $purchases)->with('categories', $categories);
+        return view('purchases.index')->with(['purchases' => $purchases, 'categories' => $categories, 'projects' => $projects]);
 
     }
 

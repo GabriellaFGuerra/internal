@@ -38,7 +38,8 @@
                                onclick="document.getElementById('edit{{ $purchase->id }}').showModal()">Editar
                             </a>
                         </td>
-                    </tr>
+                    </tr>,
+
                     <dialog id="edit{{ $purchase->id }}" class="p-5 bg-white rounded-md w-full">
                         <form action="{{route('editPurchase')}}" enctype="multipart/form-data"
                               method="POST">
@@ -105,7 +106,7 @@
                                                 placeholder=" Quantidade">
                                         </div>
                                     </div>
-                                    <div class="w-full px-3">
+                                    <div class="w-full py-3 px-4" id="grid-category-dropdown{{ $purchase->id }}">
                                         <label
                                             class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                                             for="grid-category">
@@ -115,8 +116,26 @@
                                             name="category_id"
                                             class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                                             id="grid-category">
+                                            <option value="">Sem categoria</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{$category->id}}">{{ $category->category }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="w-full py-3 px-4" id="grid-project-dropdown{{ $purchase->id }}">
+                                        <label
+                                            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                            for="grid-project">
+                                            Projeto
+                                        </label>
+                                        <select
+                                            name="project_id"
+                                            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                            id="grid-project">
+                                            <option value="">Sem projeto</option>
+                                            @foreach ($projects as $project)
+                                                <option
+                                                    value="{{$project->id}}">{{str_replace('_', ' ', ucwords($project->project))}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -350,7 +369,10 @@
                     <script>
                         $(document).ready(function () {
                             $('#grid-category').select2({
-                                dropdownParent: $('#edit{{ $purchase->id }}')
+                                dropdownParent: $('#grid-category-dropdown{{ $purchase->id }}')
+                            });
+                            $('#grid-project').select2({
+                                dropdownParent: $('#grid-project-dropdown{{ $purchase->id }}')
                             });
                         });
                     </script>
@@ -452,7 +474,7 @@
                             id="grid-quantity" type="number" placeholder="Quantidade">
                     </div>
                 </div>
-                <div class="w-full px-3">
+                <div class="w-full py-3 px-4" id="grid-category-dropdown">
                     <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                            for="grid-category-create">
                         Categoria
@@ -462,8 +484,26 @@
                         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                         id="grid-category-create"
                     >
+                        <option value="">Sem categoria</option>
                         @foreach($categories as $category)
                             <option value="{{$category->id}}">{{ $category->category }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="w-full py-3 px-4" id="grid-project-dropdown">
+                    <label
+                        class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                        for="grid-project-create">
+                        Projeto
+                    </label>
+                    <select
+                        name="project_id"
+                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                        id="grid-project-create">
+                        <option value="">Sem projeto</option>
+                        @foreach ($projects as $project)
+                            <option
+                                value="{{$project->id}}">{{str_replace('_', ' ', ucwords($project->project))}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -688,7 +728,10 @@
             });
 
             $('#grid-category-create').select2({
-                dropdownParent: $('#nova_compra')
+                dropdownParent: $('#grid-category-dropdown')
+            });
+            $('#grid-project-create').select2({
+                dropdownParent: $('#grid-project-dropdown')
             });
         });
     </script>
