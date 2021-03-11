@@ -36,8 +36,8 @@ class BlueprintController extends Controller
         ]);
 
         $blueprint = $request->file('blueprint');
-
-        $name = preg_replace('/\s+/', '_', $request->name) . '.' . $blueprint->getClientOriginalExtension();
+        $subject = preg_replace('/[^A-Za-z0-9\-]\s+/', '_', $request->name);
+        $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $subject) . '.' . $blueprint->getClientOriginalExtension();
         $path = '/blueprints/' . $project_name . '/' . $name;
         Storage::disk('public')->put($path, file_get_contents($blueprint));
         $save = new Blueprint;
