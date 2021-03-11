@@ -3,15 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Purchase;
+use App\Traits\ProjectTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\CategoryTrait;
 
 class PurchaseController extends Controller
 {
+    use CategoryTrait;
+    use ProjectTrait;
+
     public function index()
     {
-        $purchases = Purchase::all();
-        return view('purchases.index')->with('purchases', $purchases);
+
+        $categories = $this->showCategories();
+        $projects = $this->showProjects();
+        $purchases = Purchase::with('category')->get();
+        return view('purchases.index')->with(['purchases' => $purchases, 'categories' => $categories, 'projects' => $projects]);
+
     }
 
     public function create(Request $request)
@@ -21,6 +30,7 @@ class PurchaseController extends Controller
             'vl_unit' => 'required',
             'quantity' => 'required|int',
             'provider' => 'required',
+            'invoice_key' => 'nullable',
             'invoice' => 'required|file|mimes:png,jpeg,jpg,pdf',
             'project_id' => 'nullable',
             'category_id' => 'nullable',
@@ -40,6 +50,7 @@ class PurchaseController extends Controller
             $save->quantity = $request->quantity;
             $save->total_value = floatval(str_replace(',', '.', $request->vl_unit)) * $request->quantity;
             $save->provider = $request->provider;
+            $save->invoice_key = $request->invoice_key;
             $save->invoice_path = $path . $invoicename;
             $save->save();
             return redirect('purchases')->with('status', 'Compra adicionada com sucesso.');
@@ -82,7 +93,5 @@ class PurchaseController extends Controller
         $save->provider = $request->provider;
         $save->update();
         return redirect('purchases')->with('status', 'Compra atualizada com sucesso.');
-
-
     }
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Blueprint extends Model
 {
@@ -18,7 +20,7 @@ class Blueprint extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function projects()
+    public function project()
     {
         return $this->belongsTo(Project::class);
     }

@@ -13,43 +13,72 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware('guest')->group(function () {
+    Route::get('/forgotpassword', 'Auth\ForgotPasswordController@index')->name('forgotpassword')->middleware('guest');
+    Route::post('/forgotpassword', 'Auth\ForgotPasswordController@getemail')->name('getemail')->middleware('guest');
 
-Route::get('/forgotpassword', 'Auth\ForgotPasswordController@index')->name('forgotpassword')->middleware('guest');
-Route::post('/forgotpassword', 'Auth\ForgotPasswordController@getemail')->name('getemail')->middleware('guest');
+    Route::get('/recovery/{email}/{token}', 'Auth\RecoveryController@index')->name('recovery')->middleware('guest');
+    Route::post('/recovery', 'Auth\RecoveryController@recover')->name('recover')->middleware('guest');
 
-Route::get('/recovery/{email}/{token}', 'Auth\RecoveryController@index')->name('recovery')->middleware('guest');
-Route::post('/recovery', 'Auth\RecoveryController@recover')->name('recover')->middleware('guest');
+    Route::get('/', 'Auth\LoginController@index')->name('login')->middleware('guest');
+    Route::post('/', 'Auth\LoginController@auth')->name('login.auth')->middleware('guest');
 
-Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
+    Route::get('/register', 'UserController@index')->name('register')->middleware('guest');
+    Route::post('/register', 'UserController@store')->name('register.store')->middleware('guest');
+});
 
-Route::get('/', 'Auth\LoginController@index')->name('login')->middleware('guest');
-Route::post('/', 'Auth\LoginController@auth')->name('login.auth')->middleware('guest');
+Route::middleware('auth')->group(function () {
+    Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
+    Route::view('/home', 'home.index')->name('home');
 
-Route::get('/register', 'UserController@index')->name('register')->middleware('guest');
-Route::post('/register', 'UserController@store')->name('register.store')->middleware('guest');
+    Route::prefix('blueprints')->group(function () {
+        Route::get('/', 'BlueprintController@index')->name('blueprints');
+        Route::get('/{id_project}/{project_name}', 'BlueprintController@show')->name('blueprint');
+        Route::post('/{id_project}/{project_name}', 'BlueprintController@upload')->name('uploadBlueprint');
+        Route::get('/{id_project}/{project_name}/download/{id}', 'BlueprintController@download')->name('downloadBlueprint');
+    });
 
-Route::view('/home', 'home.index')->name('home')->middleware('auth');
+    Route::prefix('documents')->group(function () {
+        Route::get('/', 'DocumentController@index')->name('documents');
+        Route::post('/', 'DocumentController@upload')->name('uploadDoc');
+        Route::get('/download/{id}', 'DocumentController@download')->name('downloadDoc');
+        Route::get('/delete/{id}', 'DocumentController@delete')->name('deleteDoc');
+        Route::get('/trash', 'DocumentController@trash')->name('trashDoc');
+        Route::get('/trash/restore/{id}', 'DocumentController@restore')->name('restoreDoc');
+        Route::get('/trash/permadelete/{id}', 'DocumentController@permadelete')->name('permadeleteDoc');
 
-Route::get('/blueprints', 'BlueprintController@index')->name('blueprints')->middleware('auth');
-Route::get('/blueprints/{slug}', 'BlueprintController@show')->name('blueprint')->middleware('auth');
+    });
 
-Route::get('/documents', 'DocumentController@index')->name('documents')->middleware('auth');
-Route::post('/documents', 'DocumentController@upload')->name('uploadDoc')->middleware('auth');
-Route::get('/documents/download/{id}', 'DocumentController@download')->name('downloadDoc')->middleware('auth');
-Route::get('/documents/delete/{id}', 'DocumentController@delete')->name('deleteDoc')->middleware('auth');
-Route::get('/documents/trash', 'DocumentController@trash')->name('trashDoc')->middleware('auth');
-Route::get('/documents/trash/restore/{id}', 'DocumentController@restore')->name('restoreDoc')->middleware('auth');
-Route::get('/documents/trash/permadelete/{id}', 'DocumentController@permadelete')->name('permadeleteDoc')->middleware('auth');
+    Route::prefix('projects')->group(function () {
+        Route::get('/', 'ProjectController@index')->name('projects');
+        Route::post('/', 'ProjectController@create')->name('newProject');
+        Route::get('/{id}/{name}', 'ProjectController@show')->name('project');
+        Route::get('/{id}/{name}/image/{img}', 'ProjectController@showImages')->name('showImage');
+        Route::get('/{id}/{name}/diary', 'ProjectController@newEntryIndex')->name('newEntry');
+        Route::post('/{id}/{name}/diary', 'ProjectController@newEntryCreate')->name('createEntry');
+        Route::get('/{id}/{name}/diary/{entry_id}', 'ProjectController@readEntry')->name('readEntry');
+        Route::get('/{id}/{name}/diary/edit/{entry}', 'ProjectController@entryEditIndex')->name('editEntryForm');
+        Route::post('/{id}/{name}/diary/edit/{entry}', 'ProjectController@entryEdit')->name('editEntry');
+    });
 
-Route::get('/projects', 'ProjectController@index')->name('projects')->middleware('auth');
-Route::get('/projects/{slug}', 'ProjectController@show')->name('project')->middleware('auth');
+    Route::get('/image/{image_id}', 'ProjectController@showImage')->name('showImage');
 
-Route::get('/purchases', 'PurchaseController@index')->name('purchases')->middleware('auth');
-Route::get('/purchases/download/{id}', 'PurchaseController@download')->name('downloadInvoice')->middleware('auth');
-Route::post('/purchases', 'PurchaseController@create')->name('newPurchase')->middleware('auth');
-Route::post('/purchases/edit', 'PurchaseController@edit')->name('editPurchase')->middleware('auth');
 
-Route::get('/stock', 'StockController@index')->name('stock')->middleware('auth');
+    Route::prefix('purchases')->group(function () {
+        Route::get('/', 'PurchaseController@index')->name('purchases');
+        Route::get('/download/{id}', 'PurchaseController@download')->name('downloadInvoice');
+        Route::post('/', 'PurchaseController@create')->name('newPurchase');
+        Route::post('/edit', 'PurchaseController@edit')->name('editPurchase');
+    });
 
-Route::get('/profile', 'UserController@profile')->name('profile')->middleware('auth');
-Route::post('/profile', 'UserController@resetpassword')->name('resetpassword')->middleware('auth');
+    Route::prefix('stock')->group(function () {
+        Route::get('/', 'StockController@index')->name('stock');
+        Route::post('/', 'StockController@create')->name('newStock');
+        Route::post('/edit', 'StockController@edit')->name('editStock');
+    });
+
+    Route::get('/profile', 'UserController@profile')->name('profile');
+    Route::post('/profile', 'UserController@resetpassword')->name('resetpassword');
+});
+
+

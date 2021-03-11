@@ -19,8 +19,8 @@ class Image extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function diaries()
+    public function diary()
     {
-        return $this->belongsTo(Diary::class);
+        return $this->belongsTo(Diary::class, 'entry_id');
     }
 }

@@ -25,7 +25,7 @@ class Stock extends Model
         'returned_datetime',
     ];
 
-    public function categories() {
+    public function category() {
         return $this->belongsTo(Category::class);
     }
 }

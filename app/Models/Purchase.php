@@ -18,6 +18,7 @@ class Purchase extends Model
         'unit_value',
         'quantity',
         'provider',
+        'invoice_key',
         'invoice_path',
     ];
 

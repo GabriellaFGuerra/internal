@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -14,14 +15,15 @@ class DocumentController extends Controller
     public function index()
     {
         $documents = Document::all();
-        return view('documents.index')->with('documents', $documents);
+        $projects = Project::all();
+        return view('documents.index', ['documents' => $documents, 'projects' => $projects]);
     }
 
     public function upload(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'document' => 'required|file|mimes:csv,txt,xlx,xls,pdf,docx,pdf',
+            'document' => 'required|file|mimes:csv,txt,xlx,xls,pdf,docx,pdf,jpeg,png',
             'project_id' => 'nullable'
         ]);
 
@@ -46,25 +48,29 @@ class DocumentController extends Controller
         return Storage::download($doc->document_path);
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $doc = Document::find($id);
         $doc->delete();
         return back()->with('status', 'Arquivo deletado com sucesso.');
 
     }
 
-    public function trash() {
+    public function trash()
+    {
         $documents = Document::onlyTrashed()->get();
         return view('documents.trash')->with('documents', $documents);
     }
 
-    public function restore($id) {
+    public function restore($id)
+    {
         $doc = Document::onlyTrashed()->find($id);
         $doc->restore();
         return back()->with('status', 'Arquivo restaurado com sucesso.');
     }
 
-    public function permadelete($id) {
+    public function permadelete($id)
+    {
         $doc = Document::onlyTrashed()->find($id);
         Storage::delete($doc->document_path);
         $doc->forceDelete();

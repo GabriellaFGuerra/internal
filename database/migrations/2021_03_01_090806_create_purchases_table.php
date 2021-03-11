@@ -22,6 +22,7 @@ class CreatePurchasesTable extends Migration
             $table->integer('quantity');
             $table->double('total_value', 10, 2);
             $table->string('provider');
+            $table->string('invoice_key')->nullable();
             $table->string('invoice_path');
             $table->timestamps();
             $table->softDeletes();
