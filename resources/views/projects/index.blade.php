@@ -9,7 +9,7 @@
                         <div class="bg-white shadow-xl rounded-lg overflow-hidden">
                             <div class="p-4">
                                 <p class="text-3xl text-gray-900"><a
-                                        href="{{route('project', ['name' => $project->project, 'id' => $project->id])}}">{{str_replace('_', ' ', ucwords($project->project))}}</a>
+                                        href="{{route('project', ['name' => $project->project, 'id' => $project->id])}}">{{str_replace('_', ' ', ucwords($project->project, '_'))}}</a>
                                 </p>
                                 <p class="text-gray-700">
                                     {{$project->address . ' - ' . $project->district}}

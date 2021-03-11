@@ -31,8 +31,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
     Route::view('/home', 'home.index')->name('home');
 
-    Route::get('/blueprints', 'BlueprintController@index')->name('blueprints');
-    Route::get('/blueprints/{slug}', 'BlueprintController@show')->name('blueprint');
+    Route::prefix('blueprints')->group(function () {
+        Route::get('/', 'BlueprintController@index')->name('blueprints');
+        Route::get('/{id_project}/{project_name}', 'BlueprintController@show')->name('blueprint');
+        Route::post('/{id_project}/{project_name}', 'BlueprintController@upload')->name('uploadBlueprint');
+        Route::get('/{id_project}/{project_name}/download/{id}', 'BlueprintController@download')->name('downloadBlueprint');
+    });
 
     Route::prefix('documents')->group(function () {
         Route::get('/', 'DocumentController@index')->name('documents');
@@ -53,7 +57,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/{name}/diary', 'ProjectController@newEntryIndex')->name('newEntry');
         Route::post('/{id}/{name}/diary', 'ProjectController@newEntryCreate')->name('createEntry');
         Route::get('/{id}/{name}/diary/{entry_id}', 'ProjectController@readEntry')->name('readEntry');
-        Route::get('/{id}/{name}/diary/edit/{entry}', 'ProjectController@entryEditIndex')->name('editEntry');
+        Route::get('/{id}/{name}/diary/edit/{entry}', 'ProjectController@entryEditIndex')->name('editEntryForm');
+        Route::post('/{id}/{name}/diary/edit/{entry}', 'ProjectController@entryEdit')->name('editEntry');
     });
 
     Route::get('/image/{image_id}', 'ProjectController@showImage')->name('showImage');

@@ -21,7 +21,7 @@
                     <div class="text-2xl font-bold text-blue-500 mb-4">Plantas</div>
                     @foreach($project->blueprints as $blueprint)
                         <p>
-                            <a href="{{route('downloadBlueprint', ['id' => $blueprint->id])}}">{{ $blueprint->blueprint }}</a>
+                            <a href="{{route('downloadBlueprint', ['id_project' => $project->id, 'project_name' => $project->project, 'id' => $blueprint->id])}}">{{ $blueprint->blueprint }}</a>
                         </p>
                     @endforeach
                 </div>

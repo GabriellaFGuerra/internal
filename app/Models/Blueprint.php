@@ -20,7 +20,7 @@ class Blueprint extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function projects()
+    public function project()
     {
         return $this->belongsTo(Project::class);
     }

@@ -196,6 +196,7 @@
         </div>
     </div>
 @endif
+
 @yield('content')
 
 </body>

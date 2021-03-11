@@ -54,15 +54,15 @@
         </svg>
     </button>
     <form action="{{ route('trashDoc') }}">
-    <button type="submit"
-        class="fixed bottom-1 left-0 p-0 w-16 h-16 mx-5 bg-gray-800 rounded-full hover:bg-gray-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
-        <svg class="w-6 h-6 inline-block"
-             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#FFFFFF">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  fill="transparent"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-        </svg>
-    </button>
+        <button type="submit"
+                class="fixed bottom-1 left-0 p-0 w-16 h-16 mx-5 bg-gray-800 rounded-full hover:bg-gray-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
+            <svg class="w-6 h-6 inline-block"
+                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#FFFFFF">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      fill="transparent"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+        </button>
     </form>
 
     <style>
@@ -75,6 +75,11 @@
             backdrop-filter: blur(3px);
         }
 
+        .select2-container {
+            width: 100% !important;
+            padding: 0;
+            @apply appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4;
+        }
 
         @keyframes appear {
             from {
@@ -120,16 +125,21 @@
                         id="grid-name" type="text" placeholder="Nome">
                 </div>
 
-                <div class="md:w-full px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                           for="grid-project">
+                <div class="w-full py-3 px-4" id="grid-project-dropdown">
+                    <label
+                        class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                        for="grid-project">
                         Projeto
                     </label>
                     <select
                         name="project_id"
-                        class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
+                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                         id="grid-project">
                         <option value="">Sem projeto</option>
+                        @foreach ($projects as $project)
+                            <option
+                                value="{{$project->id}}">{{str_replace('_', ' ', ucwords($project->project))}}</option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -317,7 +327,10 @@
                     url: '//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json'
                 },
                 responsive: true
-            })
+            });
+            $('select').select2({
+                dropdownParent: $('#grid-project-dropdown')
+            });
         })
     </script>
 @endsection

@@ -31,12 +31,7 @@ class ProjectController extends Controller
         ]);
 
         $save = new Project;
-        $replace = preg_match('/\s/', $request->project);
-        if (!$replace) {
-            $save->project = strtolower($request->project);
-        } else {
-            $save->project = str_replace('/\s+/', '_', strtolower($request->project));
-        }
+        $save->project = preg_replace('/\s+/', '_', strtolower($request->project));
         $save->address = $request->address;
         $save->zipcode = $request->zipcode;
         $save->district = $request->district;
