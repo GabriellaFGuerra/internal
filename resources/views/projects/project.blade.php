@@ -2,7 +2,7 @@
 
 @section('content')
     <main class="px-3">
-        <div class="text-4xl sm:text-5xl text-center my-10">{{str_replace('_', ' ', ucwords($project->project))}}</div>
+        <div class="text-4xl sm:text-5xl text-center my-10">{{str_replace('_', ' ', ucwords($project->project, '_'))}}</div>
 
         <div class="grid md:grid-cols-3 gap-8 m-5 max-w-5xl m-auto">
             <div class="bg-white">

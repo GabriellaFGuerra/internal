@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Validator;
 
-
 class DocumentController extends Controller
 {
     public function index()
@@ -23,23 +22,25 @@ class DocumentController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'document' => 'required|file|mimes:csv,txt,xlx,xls,pdf,docx,pdf,jpeg,png',
+            'document' => 'required|file|mimes:csv,txt,xlx,xls,pdf,docx,pdf',
             'project_id' => 'nullable'
         ]);
 
-        $name = $request->name;
-        $path = public_path() . '/documents/';
-        $docname = $name . '.' . $request->file('document')->extension();
+        $project = Project::find($request->project_id);
 
-        if ($request->file('document')->storeAs($path, $docname)) {
-            $save = new Document;
+        $doc = $request->file('document');
+        $subject = preg_replace('/[^A-Za-z0-9\-]\s+/', '_', $request->name);
+        $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $subject) . '.' . $doc->getClientOriginalExtension();
+        $path = '/blueprints/' . $project->project . '/' . $name;
+        Storage::disk('public')->put($path, file_get_contents($doc));
+        $save = new Document;
 
-            $save->document_name = $name;
-            $save->document_path = $path . $docname;
-            $save->project_id = $request->project_id;
-            $save->save();
-            return redirect('documents')->with('status', 'Documento adicionado com sucesso.');
-        }
+        $save->document_name = $name;
+        $save->document_path = $path;
+        $save->project_id = $project->id;
+        $save->save();
+        return redirect('documents')->with('status', 'Documento adicionado com sucesso.');
+
     }
 
     public function download($id)

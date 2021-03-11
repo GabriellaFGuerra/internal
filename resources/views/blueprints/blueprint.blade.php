@@ -27,25 +27,25 @@
             </div>
         </div>
     @endisset
-
-    @foreach ($blueprints as $blueprint)
-        <div
-            class="px-0 md:px-0.5 lg:px-48 overflow-x-hidden justify-center items-center flex flex-row flex-wrap w-auto md:grid md:grid-cols-3 md:grid-flow-row gap-10 md:gap-0 sm:gap-1">
-            <div
-                class="w-64 cursor-pointer border b-gray-400 rounded flex flex-col justify-center items-center text-center p-3 bg-white">
-                <div class="w-32 h-32 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
+    <div class="flex flex-row flex-wrap md:grid md:grid-cols-3 md:grid-flow-row">
+        @foreach ($blueprints as $blueprint)
+            <div class="flex justify-center items-center w-full">
+                <div
+                    class="w-64 cursor-pointer border b-gray-400 rounded flex flex-col justify-center items-center text-center p-3 bg-white">
+                    <div class="w-32 h-32 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <a href="{{ route('downloadBlueprint', ['id_project' => $id_project, 'project_name' => $project_name, 'id' => $blueprint->id]) }}">
+                        <p
+                            class="uppercase text-xl">{{ $blueprint->blueprint }}</p>
+                    </a>
                 </div>
-                <a href="{{ route('downloadBlueprint', ['id_project' => $id_project, 'project_name' => $project_name, 'id' => $blueprint->id]) }}">
-                    <p
-                        class="text-2xl uppercase sm:text-2xl md:text-xl">{{ $blueprint->blueprint }}</p>
-                </a>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
 
     <button onclick="document.getElementById('add_planta').showModal()"
             class="fixed bottom-1 right-0 p-0 w-16 h-16 mx-5 bg-gray-800 rounded-full hover:bg-gray-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">

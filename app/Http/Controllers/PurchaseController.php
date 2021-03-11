@@ -36,25 +36,27 @@ class PurchaseController extends Controller
             'category_id' => 'nullable',
         ]);
 
-        $name = $request->name;
-        $path = public_path() . '/invoices/';
-        $invoicename = $name . '.' . $request->file('invoice')->extension();
+        $subject = preg_replace('/\s+/', '_', $request->name);
+        $invoice = $request->file('invoice');
+        $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $subject) . '.' . $invoice->getClientOriginalExtension();
+        $path = '/invoices/' . $name;
+        Storage::disk('public')->put($path, file_get_contents($invoice));
 
-        if ($request->file('invoice')->storeAs($path, $invoicename)) {
-            $save = new Purchase;
+        $save = new Purchase;
 
-            $save->item = $name;
-            $save->category_id = $request->category_id;
-            $save->project_id = $request->project_id;
-            $save->unit_value = $request->vl_unit;
-            $save->quantity = $request->quantity;
-            $save->total_value = floatval(str_replace(',', '.', $request->vl_unit)) * $request->quantity;
-            $save->provider = $request->provider;
-            $save->invoice_key = $request->invoice_key;
-            $save->invoice_path = $path . $invoicename;
-            $save->save();
-            return redirect('purchases')->with('status', 'Compra adicionada com sucesso.');
-        }
+        $save->item = $request->name;
+        $save->category_id = $request->category_id;
+        $save->project_id = $request->project_id;
+        $save->unit_value = $request->vl_unit;
+        $save->quantity = $request->quantity;
+        $save->total_value = floatval(str_replace(',', '.', $request->vl_unit)) * $request->quantity;
+        $save->provider = $request->provider;
+        $save->invoice_key = $request->invoice_key;
+        $save->invoice_path = $path;
+        $save->save();
+
+        return redirect('purchases')->with('status', 'Compra adicionada com sucesso.');
+
     }
 
     public function download($id)
@@ -65,11 +67,13 @@ class PurchaseController extends Controller
 
     public function edit(Request $request)
     {
+
         $request->validate([
             'name' => 'required',
             'vl_unit' => 'required',
             'quantity' => 'required|int',
             'provider' => 'required',
+            'invoice_key' => 'nullable',
             'invoice' => 'nullable|file|mimes:png,jpeg,jpg,pdf',
             'project_id' => 'nullable',
             'category_id' => 'nullable',
@@ -77,12 +81,12 @@ class PurchaseController extends Controller
 
         $save = Purchase::find($request->purchase_id);
         if (isset($request->invoice)) {
-            if ($request->file('invoice')->storeAs($path, $invoicename)) {
-                $name = $request->name;
-                $path = public_path() . '/invoices/';
-                $invoicename = $name . '.' . $request->file('invoice')->extension();
-                $save->invoice_path = $path . $invoicename;
-            }
+            $subject = preg_replace('/[^A-Za-z0-9\-]\s+/', '_', $request->name);
+            $invoice = $request->file('invoice');
+            $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $subject) . '.' . $invoice->getClientOriginalExtension();
+            $path = '/invoices/' . $name;
+            Storage::disk('public')->put($path, file_get_contents($invoice));
+            $save->invoice_path = $path;
         }
         $save->item = $request->name;
         $save->category_id = $request->category_id;
@@ -91,6 +95,7 @@ class PurchaseController extends Controller
         $save->quantity = $request->quantity;
         $save->total_value = floatval(str_replace(',', '.', $request->vl_unit)) * $request->quantity;
         $save->provider = $request->provider;
+        $save->invoice_key = $request->invoice_key;
         $save->update();
         return redirect('purchases')->with('status', 'Compra atualizada com sucesso.');
     }

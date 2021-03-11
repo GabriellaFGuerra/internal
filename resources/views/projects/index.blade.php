@@ -142,7 +142,7 @@
                                 id="grid-neighborhood" type="text" placeholder="Bairro">
                         </div>
                     </div>
-                    <div class="md:w-full px-3 mb-6 md:mb-0">
+                    <div class="md:w-full px-3 mb-6 md:mb-0" id="grid-stage-dropdown">
                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                                for="grid-stage">
                             Etapa
@@ -156,7 +156,7 @@
                             <option value="3">Etapa 3</option>
                         </select>
                     </div>
-                    <div class="md:w-full px-3 mb-6 md:mb-0">
+                    <div class="md:w-full px-3 mb-6 md:mb-0" id="grid-user-dropdown">
                         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                                for="grid-user">
                             Responsável
@@ -186,11 +186,11 @@
         $(document).ready(function () {
 
             $('#grid-stage').select2({
-                dropdownParent: $('#add_projeto')
+                dropdownParent: $('#grid-stage-dropdown')
             });
 
             $('#grid-user').select2({
-                dropdownParent: $('#add_projeto')
+                dropdownParent: $('#grid-user-dropdown')
             });
         });
     </script>

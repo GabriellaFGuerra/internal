@@ -23,7 +23,7 @@
                     <tr class="bg-white font-medium text-sm divide-y divide-gray-200">
                         <td class="p-4 whitespace-nowrap">{{ $purchase->id }}</td>
                         <td class="p-4 whitespace-nowrap">{{ $purchase->item }}</td>
-                        <td class="p-4 whitespace-nowrap">{{ $purchase->category->category }}</td>
+                        <td class="p-4 whitespace-nowrap"> @if ($purchase->category === NULL) {{"Sem categoria"}} @else {{$purchase->category->category}} @endif</td>
                         <td class="p-4 whitespace-nowrap">R${{ $purchase->unit_value }}</td>
                         <td class="p-4 whitespace-nowrap">{{ $purchase->quantity }}</td>
                         <td class="p-4 whitespace-nowrap">R${{ $purchase->total_value }}</td>
