@@ -46,8 +46,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/trash', 'DocumentController@trash')->name('trashDoc');
         Route::get('/trash/restore/{id}', 'DocumentController@restore')->name('restoreDoc');
         Route::get('/trash/permadelete/{id}', 'DocumentController@permadelete')->name('permadeleteDoc');
-
     });
+
+    Route::get('/employees/', 'UserController@show')->name('employees');
 
     Route::prefix('projects')->group(function () {
         Route::get('/', 'ProjectController@index')->name('projects');

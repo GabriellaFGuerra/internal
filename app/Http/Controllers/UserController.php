@@ -59,6 +59,10 @@ class UserController extends Controller
         return view('profile.index', ['username' => ucfirst(Auth::user()->firstname . ' ' . Auth::user()->lastname), 'role' => ucfirst(Auth::user()->role), 'email' => Auth::user()->email]);
     }
 
+    public function show() {
+        return view('employees.index', ['employees' => User::all()->where('id', '!=', Auth::user()->id)]);
+    }
+
     public function resetpassword(Request $request)
     {
         $request->validate([
