@@ -4,7 +4,7 @@
     <div class="w-full m-auto">
         <div class="shadow-lg bg-white pb-6 pt-4 rounded-lg leading-normal">
             <table class="overflow-x-auto w-full bg-white" id="table">
-                <thead class="bg-blue-100 border-b border-gray-300">
+                <thead class="border-b border-gray-300">
                 <tr>
                     <th class="p-4 text-left text-sm font-medium text-gray-500">ID</th>
                     <th class="p-4 text-left text-sm font-medium text-gray-500">Item</th>

@@ -90,6 +90,10 @@
                    class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
                     <span>Estoque</span>
                 </a>
+                <a href="{{route('employees')}}"
+                   class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+                    <span>Funcionários</span>
+                </a>
                 <a href="{{route('blueprints')}}"
                    class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
                     <span>Plantas</span>
