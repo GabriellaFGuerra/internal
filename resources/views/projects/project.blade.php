@@ -53,32 +53,31 @@
         </div>
 
         <p class="text-4xl sm:text-5xl text-center my-10">Custos do projeto</p>
-        <div class="w-full m-auto">
-            <div class="px-5 pt-4 shadow-lg bg-white pb-6 pt-4 rounded-lg leading-normal overflow-auto">
-                <table class="overflow-x-auto w-full bg-white" id="table">
-                    <thead class="bg-blue-100 border-b border-gray-300">
-                    <tr>
-                        <th class="p-4 text-left text-sm font-medium text-gray-500">ID</th>
-                        <th class="p-4 text-left text-sm font-medium text-gray-500">Descrição</th>
-                        <th class="p-4 text-left text-sm font-medium text-gray-500">Valor unitário</th>
-                        <th class="p-4 text-left text-sm font-medium text-gray-500">Quantidade</th>
-                        <th class="p-4 text-left text-sm font-medium text-gray-500">Valor total</th>
+        <table class="overflow-x-auto w-full" id="table">
+            <thead class="border-b border-gray-300">
+                <tr>
+                    <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300">ID</th>
+                    <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300">Descrição</th>
+                    <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300">Valor
+                        unitário
+                    </th>
+                    <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300">Quantidade</th>
+                    <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300">Valor total
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-600 divide-y divide-gray-300">
+                @foreach ($project->purchases as $purchase)
+                    <tr class="bg-white font-medium divide-y divide-gray-200">
+                        <td class="p-4 whitespace-nowrap">{{$purchase->id}}</td>
+                        <td class="p-4 whitespace-nowrap">{{$purchase->item}}</td>
+                        <td class="p-4 whitespace-nowrap">R${{$purchase->unit_value}}</td>
+                        <td class="p-4 whitespace-nowrap">{{$purchase->quantity}}</td>
+                        <td class="p-4 whitespace-nowrap">R${{$purchase->total_value}}</td>
                     </tr>
-                    </thead>
-                    <tbody class="text-gray-600 text-sm divide-y divide-gray-300">
-                    @foreach ($project->purchases as $purchase)
-                        <tr class="bg-white font-medium text-sm divide-y divide-gray-200">
-                            <td class="p-4 whitespace-nowrap">{{$purchase->id}}</td>
-                            <td class="p-4 whitespace-nowrap">{{$purchase->item}}</td>
-                            <td class="p-4 whitespace-nowrap">R${{$purchase->unit_value}}</td>
-                            <td class="p-4 whitespace-nowrap">{{$purchase->quantity}}</td>
-                            <td class="p-4 whitespace-nowrap">R${{$purchase->total_value}}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                @endforeach
+            </tbody>
+        </table>
     </main>
 
     <style>
@@ -156,14 +155,14 @@
                              @dragover.prevent="$event.dataTransfer.dropEffect = 'move'">
                             <template x-for="(_, index) in Array.from({ length: files.length })">
                                 <div
-                                    class="relative flex flex-col items-center overflow-hidden text-center bg-gray-100 border rounded cursor-move select-none"
-                                    style="padding-top: 100%;" @dragstart="dragstart($event)"
-                                    @dragend="fileDragging = null"
-                                    :class="{'border-blue-600': fileDragging == index}" draggable="true"
-                                    :data-index="index">
+                                        class="relative flex flex-col items-center overflow-hidden text-center bg-gray-100 border rounded cursor-move select-none"
+                                        style="padding-top: 100%;" @dragstart="dragstart($event)"
+                                        @dragend="fileDragging = null"
+                                        :class="{'border-blue-600': fileDragging == index}" draggable="true"
+                                        :data-index="index">
                                     <button
-                                        class="absolute top-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
-                                        type="button" @click="remove(index)">
+                                            class="absolute top-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
+                                            type="button" @click="remove(index)">
                                         <svg class="w-4 h-4 text-gray-700" xmlns="http://www.w3.org/2000/svg"
                                              fill="none"
                                              viewBox="0 0 24 24" stroke="currentColor">
@@ -173,38 +172,38 @@
                                     </button>
                                     <template x-if="files[index].type.includes('audio/')">
                                         <svg
-                                            class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
-                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
+                                                class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                   d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
                                         </svg>
                                     </template>
                                     <template
-                                        x-if="files[index].type.includes('application/') || files[index].type === ''">
+                                            x-if="files[index].type.includes('application/') || files[index].type === ''">
                                         <svg
-                                            class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
-                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
+                                                class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                   d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                                         </svg>
                                     </template>
                                     <template x-if="files[index].type.includes('image/')">
                                         <img
-                                            class="absolute inset-0 z-0 object-cover w-full h-full border-4 border-white preview"
-                                            x-bind:src="loadFile(files[index])"/>
+                                                class="absolute inset-0 z-0 object-cover w-full h-full border-4 border-white preview"
+                                                x-bind:src="loadFile(files[index])"/>
                                     </template>
                                     <template x-if="files[index].type.includes('video/')">
                                         <video
-                                            class="absolute inset-0 object-cover w-full h-full border-4 border-white pointer-events-none preview">
+                                                class="absolute inset-0 object-cover w-full h-full border-4 border-white pointer-events-none preview">
                                             <fileDragging x-bind:src="loadFile(files[index])"
                                                           type="video/mp4"></fileDragging>
                                         </video>
                                     </template>
 
                                     <div
-                                        class="absolute bottom-0 left-0 right-0 flex flex-col p-2 text-xs bg-white bg-opacity-50">
+                                            class="absolute bottom-0 left-0 right-0 flex flex-col p-2 text-xs bg-white bg-opacity-50">
                         <span class="w-full font-bold text-gray-900 truncate"
                               x-text="files[index].name">Loading</span>
                                         <span class="text-xs text-gray-900"

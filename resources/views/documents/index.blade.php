@@ -1,52 +1,48 @@
 @extends('layout.index', ['title' => 'Documentos'])
 
 @section('content')
-    <div class="w-full m-auto">
-        <div class="shadow-lg bg-white pb-6 pt-4 rounded-lg leading-normal">
-            <table class="border-collapse w-full" id="table">
-                <thead>
-                <tr>
-                    <th class="p-4 text-left text-sm font-medium text-gray-500">
-                        ID
-                    </th>
-                    <th class="p-4 text-left text-sm font-medium text-gray-500">
-                        Documento
-                    </th>
-                    <th class="p-4 text-left text-sm font-medium text-gray-500">
-                        Tipo de documento
-                    </th>
-                    <th class="p-4 text-left text-sm font-medium text-gray-500">
-                        Ações
-                    </th>
-                </tr>
-                </thead>
+    <table class="border-collapse w-full" id="table">
+        <thead class="border-b border-gray-300">
+            <tr>
+                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300">
+                    ID
+                </th>
+                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300">
+                    Documento
+                </th>
+                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300">
+                    Tipo de documento
+                </th>
+                <th class="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300">
+                    Ações
+                </th>
+            </tr>
+        </thead>
 
-                <tbody class="text-gray-600 text-sm divide-y divide-gray-300">
-                @foreach ($documents as $document)
-                    <tr class="bg-white font-medium text-sm divide-y divide-gray-200">
-                        <td class="p-4 whitespace-nowrap">
-                            {{ $document->id }}
-                        </td>
-                        <td class="p-4 whitespace-nowrap">
-                            <a href="{{ route('downloadDoc', ['id' => $document->id]) }}">{{ $document->document_name }}</a>
-                        </td>
-                        <td class="p-4 whitespace-nowrap">
-                            <span class="rounded bg-green-400 py-1 px-3 text-xs font-bold">Documento</span>
-                        </td>
-                        <td class="p-4 whitespace-nowrap">
-                            <a href="{{ route('deleteDoc', ['id' => $document->id])}}">
-                                Remover
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <tbody class="text-gray-600 divide-y divide-gray-300">
+            @foreach ($documents as $document)
+                <tr class="bg-white font-medium divide-y divide-gray-200">
+                    <td class="p-4 whitespace-nowrap">
+                        {{ $document->id }}
+                    </td>
+                    <td class="p-4 whitespace-nowrap">
+                        <a href="{{ route('downloadDoc', ['id' => $document->id]) }}">{{ $document->document_name }}</a>
+                    </td>
+                    <td class="p-4 whitespace-nowrap">
+                        <span class="rounded bg-green-400 py-1 px-3 text-xs font-bold">Documento</span>
+                    </td>
+                    <td class="p-4 whitespace-nowrap">
+                        <a href="{{ route('deleteDoc', ['id' => $document->id])}}">
+                            Remover
+                        </a>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
     <button onclick="document.getElementById('add_documento').showModal()"
-            class="fixed bottom-1 right-0 p-0 w-16 h-16 mx-5 bg-gray-800 rounded-full hover:bg-gray-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
+            class="fixed bottom-1 right-0 p-0 w-16 h-16 mx-5 bg-dark-blue rounded-full hover:bg-gray-900 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
         <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="w-6 h-6 inline-block">
             <path fill="#FFFFFF" d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601
                                     C4.049,11,4,10.553,4,10c0-0.553,0.049-1,0.601-1H9V4.601C9,4.048,9.447,4,10,4c0.553,0,1,0.048,1,0.601V9h4.399
@@ -55,7 +51,7 @@
     </button>
     <form action="{{ route('trashDoc') }}">
         <button type="submit"
-                class="fixed bottom-1 left-0 p-0 w-16 h-16 mx-5 bg-gray-800 rounded-full hover:bg-gray-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
+                class="fixed bottom-1 left-0 p-0 w-16 h-16 mx-5 bg-dark-blue rounded-full hover:bg-gray-900 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
             <svg class="w-6 h-6 inline-block"
                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#FFFFFF">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -120,25 +116,25 @@
                         Nome do documento (sem extensão)
                     </label>
                     <input
-                        name="name"
-                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-                        id="grid-name" type="text" placeholder="Nome">
+                            name="name"
+                            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                            id="grid-name" type="text" placeholder="Nome">
                 </div>
 
                 <div class="w-full py-3 px-4" id="grid-project-dropdown">
                     <label
-                        class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                        for="grid-project">
+                            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                            for="grid-project">
                         Projeto
                     </label>
                     <select
-                        name="project_id"
-                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                        id="grid-project">
+                            name="project_id"
+                            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                            id="grid-project">
                         <option value="">Sem projeto</option>
                         @foreach ($projects as $project)
                             <option
-                                value="{{$project->id}}">{{str_replace('_', ' ', ucwords($project->project))}}</option>
+                                    value="{{$project->id}}">{{str_replace('_', ' ', ucwords($project->project))}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -175,14 +171,14 @@
                                  @dragover.prevent="$event.dataTransfer.dropEffect = 'move'">
                                 <template x-for="(_, index) in Array.from({ length: files.length })">
                                     <div
-                                        class="relative flex flex-col items-center overflow-hidden text-center bg-gray-100 border rounded cursor-move select-none"
-                                        style="padding-top: 100%;" @dragstart="dragstart($event)"
-                                        @dragend="fileDragging = null"
-                                        :class="{'border-blue-600': fileDragging == index}" draggable="true"
-                                        :data-index="index">
+                                            class="relative flex flex-col items-center overflow-hidden text-center bg-gray-100 border rounded cursor-move select-none"
+                                            style="padding-top: 100%;" @dragstart="dragstart($event)"
+                                            @dragend="fileDragging = null"
+                                            :class="{'border-blue-600': fileDragging == index}" draggable="true"
+                                            :data-index="index">
                                         <button
-                                            class="absolute top-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
-                                            type="button" @click="remove(index)">
+                                                class="absolute top-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
+                                                type="button" @click="remove(index)">
                                             <svg class="w-4 h-4 text-gray-700" xmlns="http://www.w3.org/2000/svg"
                                                  fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
@@ -193,20 +189,20 @@
                                         </button>
                                         <template x-if="files[index].type.includes('audio/')">
                                             <svg
-                                                class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
-                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke="currentColor">
+                                                    class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       stroke-width="2"
                                                       d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
                                             </svg>
                                         </template>
                                         <template
-                                            x-if="files[index].type.includes('application/') || files[index].type === ''">
+                                                x-if="files[index].type.includes('application/') || files[index].type === ''">
                                             <svg
-                                                class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
-                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke="currentColor">
+                                                    class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       stroke-width="2"
                                                       d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
@@ -214,19 +210,19 @@
                                         </template>
                                         <template x-if="files[index].type.includes('image/')">
                                             <img
-                                                class="absolute inset-0 z-0 object-cover w-full h-full border-4 border-white preview"
-                                                x-bind:src="loadFile(files[index])"/>
+                                                    class="absolute inset-0 z-0 object-cover w-full h-full border-4 border-white preview"
+                                                    x-bind:src="loadFile(files[index])"/>
                                         </template>
                                         <template x-if="files[index].type.includes('video/')">
                                             <video
-                                                class="absolute inset-0 object-cover w-full h-full border-4 border-white pointer-events-none preview">
+                                                    class="absolute inset-0 object-cover w-full h-full border-4 border-white pointer-events-none preview">
                                                 <fileDragging x-bind:src="loadFile(files[index])"
                                                               type="video/mp4"></fileDragging>
                                             </video>
                                         </template>
 
                                         <div
-                                            class="absolute bottom-0 left-0 right-0 flex flex-col p-2 text-xs bg-white bg-opacity-50">
+                                                class="absolute bottom-0 left-0 right-0 flex flex-col p-2 text-xs bg-white bg-opacity-50">
                                         <span class="w-full font-bold text-gray-900 truncate"
                                               x-text="files[index].name">Loading</span>
                                             <span class="text-xs text-gray-900"

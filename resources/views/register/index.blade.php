@@ -111,7 +111,7 @@
                                     </ul>
                                 </div>
                                 <button
-                                    class="mt-3 text-lg font-semibold bg-gray-800 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black">
+                                    class="mt-3 text-lg bg-dark-blue w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-gray-900">
                                     Cadastrar-se
                                 </button>
                             </div>

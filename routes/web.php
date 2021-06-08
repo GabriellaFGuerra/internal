@@ -29,17 +29,17 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
-    Route::view('/home', 'home.index')->name('home');
+    Route::view('/home', 'home.index')->name('home')->middleware('roleCheck');
 
     Route::prefix('blueprints')->group(function () {
-        Route::get('/', 'BlueprintController@index')->name('blueprints');
+        Route::get('/', 'BlueprintController@index')->name('blueprints')->middleware('roleCheck');
         Route::get('/{id_project}/{project_name}', 'BlueprintController@show')->name('blueprint');
         Route::post('/{id_project}/{project_name}', 'BlueprintController@upload')->name('uploadBlueprint');
         Route::get('/{id_project}/{project_name}/download/{id}', 'BlueprintController@download')->name('downloadBlueprint');
     });
 
     Route::prefix('documents')->group(function () {
-        Route::get('/', 'DocumentController@index')->name('documents');
+        Route::get('/', 'DocumentController@index')->name('documents')->middleware('roleCheck');
         Route::post('/', 'DocumentController@upload')->name('uploadDoc');
         Route::get('/download/{id}', 'DocumentController@download')->name('downloadDoc');
         Route::get('/delete/{id}', 'DocumentController@delete')->name('deleteDoc');
@@ -48,10 +48,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/trash/permadelete/{id}', 'DocumentController@permadelete')->name('permadeleteDoc');
     });
 
-    Route::get('/employees/', 'UserController@show')->name('employees');
+    Route::get('/employees/', 'UserController@show')->name('employees')->middleware('roleCheck');
 
     Route::prefix('projects')->group(function () {
-        Route::get('/', 'ProjectController@index')->name('projects');
+        Route::get('/', 'ProjectController@index')->name('projects')->middleware('roleCheck');
         Route::post('/', 'ProjectController@create')->name('newProject');
         Route::get('/{id}/{name}', 'ProjectController@show')->name('project');
         Route::get('/{id}/{name}/image/{img}', 'ProjectController@showImages')->name('showImage');
@@ -66,14 +66,14 @@ Route::middleware('auth')->group(function () {
 
 
     Route::prefix('purchases')->group(function () {
-        Route::get('/', 'PurchaseController@index')->name('purchases');
+        Route::get('/', 'PurchaseController@index')->name('purchases')->middleware('roleCheck');
         Route::get('/download/{id}', 'PurchaseController@download')->name('downloadInvoice');
         Route::post('/', 'PurchaseController@create')->name('newPurchase');
         Route::post('/edit', 'PurchaseController@edit')->name('editPurchase');
     });
 
     Route::prefix('stock')->group(function () {
-        Route::get('/', 'StockController@index')->name('stock');
+        Route::get('/', 'StockController@index')->name('stock')->middleware('roleCheck');
         Route::post('/', 'StockController@create')->name('newStock');
         Route::post('/edit', 'StockController@edit')->name('editStock');
     });
