@@ -6,7 +6,7 @@
     @isset ($no_blueprint)
         <div class="alert flex flex-row items-center bg-red-200 p-5 rounded border-b-2 border-red-300">
             <div
-                class="alert-icon flex items-center bg-red-100 border-2 border-red-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
+                    class="alert-icon flex items-center bg-red-100 border-2 border-red-500 justify-center h-10 w-10 flex-shrink-0 rounded-full">
 				<span class="text-red-500">
 					<svg fill="currentColor"
                          viewBox="0 0 20 20"
@@ -27,28 +27,25 @@
             </div>
         </div>
     @endisset
-    <div class="flex flex-row flex-wrap md:grid md:grid-cols-3 md:grid-flow-row">
+    <div class="px-0 md:px-0.5 lg:px-48 overflow-x-hidden justify-center items-center flex flex-row flex-wrap w-auto md:grid md:grid-cols-3 md:grid-flow-row gap-10 md:gap-0 sm:gap-2">
         @foreach ($blueprints as $blueprint)
-            <div class="flex justify-center items-center w-full">
-                <div
-                    class="w-64 cursor-pointer border b-gray-400 rounded flex flex-col justify-center items-center text-center p-3 bg-white">
-                    <div class="w-32 h-32 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                        </svg>
+            <a href="{{ route('downloadBlueprint', ['id_project' => $id_project, 'project_name' => $project_name, 'id' => $blueprint->id]) }}"
+               class="hover:no-underline">
+                <div class="flex justify-center items-center w-full">
+                    <div class="w-64 cursor-pointer border b-gray-400 rounded flex flex-col justify-center items-center text-center p-3 bg-white">
+                        <div class="w-32 h-32 flex items-center justify-center">
+                            <i class="far fa-image fa-7x"></i>
+                        </div>
+
+                        <p class="uppercase text-xl hover:underline">{{ $blueprint->blueprint }}</p>
                     </div>
-                    <a href="{{ route('downloadBlueprint', ['id_project' => $id_project, 'project_name' => $project_name, 'id' => $blueprint->id]) }}">
-                        <p
-                            class="uppercase text-xl">{{ $blueprint->blueprint }}</p>
-                    </a>
                 </div>
-            </div>
+            </a>
         @endforeach
     </div>
 
     <button onclick="document.getElementById('add_planta').showModal()"
-            class="fixed bottom-1 right-0 p-0 w-16 h-16 mx-5 bg-gray-800 rounded-full hover:bg-gray-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
+            class="fixed bottom-1 right-0 p-0 w-16 h-16 mx-5 bg-dark-blue rounded-full hover:bg-gray-900 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none">
         <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="w-6 h-6 inline-block">
             <path fill="#FFFFFF" d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601
                                     C4.049,11,4,10.553,4,10c0-0.553,0.049-1,0.601-1H9V4.601C9,4.048,9.447,4,10,4c0.553,0,1,0.048,1,0.601V9h4.399
@@ -83,8 +80,8 @@
     <dialog id="add_planta" class="p-5 bg-white rounded-md">
         <div class="flex flex-col">
             <form
-                action="{{route('uploadBlueprint', ['id_project' => $id_project, 'project_name' => $project_name])}}"
-                method="POST" enctype="multipart/form-data">
+                    action="{{route('uploadBlueprint', ['id_project' => $id_project, 'project_name' => $project_name])}}"
+                    method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="flex w-full h-auto justify-center items-center">
                     <div class="flex w-10/12 h-auto py-3 justify-center items-center text-2xl font-bold">
@@ -108,9 +105,9 @@
                         Nome da planta
                     </label>
                     <input
-                        name="name"
-                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-                        id="grid-name" type="text" placeholder="Nome">
+                            name="name"
+                            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                            id="grid-name" type="text" placeholder="Nome">
                 </div>
 
                 <div class="md:w-full px-3 mb-6 md:mb-0">
@@ -119,9 +116,9 @@
                         Projeto
                     </label>
                     <input
-                        disabled
-                        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-                        id="grid-name" type="text" value="{{ str_replace('_', ' ', ucwords($project_name, '_')) }}">
+                            disabled
+                            class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                            id="grid-name" type="text" value="{{ str_replace('_', ' ', ucwords($project_name, '_')) }}">
                 </div>
 
                 <div class="bg-white p-7 rounded mx-auto">
@@ -156,14 +153,14 @@
                                  @dragover.prevent="$event.dataTransfer.dropEffect = 'move'">
                                 <template x-for="(_, index) in Array.from({ length: files.length })">
                                     <div
-                                        class="relative flex flex-col items-center overflow-hidden text-center bg-gray-100 border rounded cursor-move select-none"
-                                        style="padding-top: 100%;" @dragstart="dragstart($event)"
-                                        @dragend="fileDragging = null"
-                                        :class="{'border-blue-600': fileDragging == index}" draggable="true"
-                                        :data-index="index">
+                                            class="relative flex flex-col items-center overflow-hidden text-center bg-gray-100 border rounded cursor-move select-none"
+                                            style="padding-top: 100%;" @dragstart="dragstart($event)"
+                                            @dragend="fileDragging = null"
+                                            :class="{'border-blue-600': fileDragging == index}" draggable="true"
+                                            :data-index="index">
                                         <button
-                                            class="absolute top-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
-                                            type="button" @click="remove(index)">
+                                                class="absolute top-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
+                                                type="button" @click="remove(index)">
                                             <svg class="w-4 h-4 text-gray-700" xmlns="http://www.w3.org/2000/svg"
                                                  fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
@@ -174,20 +171,20 @@
                                         </button>
                                         <template x-if="files[index].type.includes('audio/')">
                                             <svg
-                                                class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
-                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke="currentColor">
+                                                    class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       stroke-width="2"
                                                       d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
                                             </svg>
                                         </template>
                                         <template
-                                            x-if="files[index].type.includes('application/') || files[index].type === ''">
+                                                x-if="files[index].type.includes('application/') || files[index].type === ''">
                                             <svg
-                                                class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
-                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke="currentColor">
+                                                    class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       stroke-width="2"
                                                       d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
@@ -195,19 +192,19 @@
                                         </template>
                                         <template x-if="files[index].type.includes('image/')">
                                             <img
-                                                class="absolute inset-0 z-0 object-cover w-full h-full border-4 border-white preview"
-                                                x-bind:src="loadFile(files[index])"/>
+                                                    class="absolute inset-0 z-0 object-cover w-full h-full border-4 border-white preview"
+                                                    x-bind:src="loadFile(files[index])"/>
                                         </template>
                                         <template x-if="files[index].type.includes('video/')">
                                             <video
-                                                class="absolute inset-0 object-cover w-full h-full border-4 border-white pointer-events-none preview">
+                                                    class="absolute inset-0 object-cover w-full h-full border-4 border-white pointer-events-none preview">
                                                 <fileDragging x-bind:src="loadFile(files[index])"
                                                               type="video/mp4"></fileDragging>
                                             </video>
                                         </template>
 
                                         <div
-                                            class="absolute bottom-0 left-0 right-0 flex flex-col p-2 text-xs bg-white bg-opacity-50">
+                                                class="absolute bottom-0 left-0 right-0 flex flex-col p-2 text-xs bg-white bg-opacity-50">
                                         <span class="w-full font-bold text-gray-900 truncate"
                                               x-text="files[index].name">Loading</span>
                                             <span class="text-xs text-gray-900"
@@ -228,7 +225,7 @@
 
                 <div class="flex justify-end">
                     <button type="submit"
-                            class="focus:outline-none text-blue-600 text-sm py-2.5 px-5 rounded-full border border-blue-600 hover:bg-blue-50">
+                            class="focus:outline-none text-gray-900 text-sm py-2.5 px-5 rounded-full border border-gray-900 hover:bg-blue-50">
                         Enviar
                     </button>
                 </div>

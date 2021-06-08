@@ -7,6 +7,7 @@ use App\Models\Image;
 use App\Models\Project;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -122,5 +123,36 @@ class ProjectController extends Controller
         } else {
             return redirect()->route('projects')->withErrors(['error' => 'Projeto não encontrado.']);
         }
+    }
+
+    public function entryEdit($id, $name, $entry, Request $request)
+    {
+        $request->validate([
+            'entry_text' => 'required',
+            'images.*' => 'nullable|mimes:jpg,jpeg,png'
+        ]);
+
+        $project = Project::where('id', $id)->first();
+        $save_entry = Diary::where('id', $entry)->where('project_id', $project->id)->first();
+
+        $save_entry->entry_datetime = Carbon::now();
+        $save_entry->entry_text = $request->entry_text;
+        $save_entry->project_id = $project->id;
+        $save_entry->save();
+
+        if ($request->hasFile('images')) {
+            foreach ($request->images as $image) {
+                $imagename = str_replace(' ', '_', $project->project . '_entry_' . $save_entry->id . '_' . Carbon::now()->format('d-m-Y_H-i-s') . '_image_' . $image->getClientOriginalName());
+                Storage::disk('public')->put('/images/' . $imagename, file_get_contents($image));
+                $save_image = new Image;
+                $save_image->image_name = $imagename;
+                $save_image->image_path = 'images/' . $imagename;
+                $save_image->entry_id = $save_entry->id;
+                $save_image->save();
+            }
+        }
+
+        return redirect()->route('project', ['id' => $id, 'name' => $name])->with(['status' => 'Entrada editada com sucesso.']);
+
     }
 }
