@@ -20,10 +20,16 @@ class PurchaseController extends Controller
         $projects = $this->showProjects();
         $purchases = Purchase::with('category')->get();
         return view('purchases.index')->with(['purchases' => $purchases, 'categories' => $categories, 'projects' => $projects]);
-
     }
 
-    public function create(Request $request)
+    public function create()
+    {
+        $categories = $this->showCategories();
+        $projects = $this->showProjects();
+        return view('purchases.add', ['categories' => $categories, 'projects' => $projects]);
+    }
+
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -31,13 +37,13 @@ class PurchaseController extends Controller
             'quantity' => 'required|int',
             'provider' => 'required',
             'invoice_key' => 'nullable',
-            'invoice' => 'required|file|mimes:png,jpeg,jpg,pdf',
+            'files' => 'required|file|mimes:png,jpeg,jpg,pdf',
             'project_id' => 'nullable',
             'category_id' => 'nullable',
         ]);
 
         $subject = preg_replace('/\s+/', '_', $request->name);
-        $invoice = $request->file('invoice');
+        $invoice = $request->file('files');
         $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $subject) . '.' . $invoice->getClientOriginalExtension();
         $path = '/invoices/' . $name;
         Storage::disk('public')->put($path, file_get_contents($invoice));
@@ -56,7 +62,6 @@ class PurchaseController extends Controller
         $save->save();
 
         return redirect('purchases')->with('status', 'Compra adicionada com sucesso.');
-
     }
 
     public function download($id)

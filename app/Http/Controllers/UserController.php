@@ -48,7 +48,6 @@ class UserController extends Controller
 
         if (!$user->save()) {
             return view('register.index');
-
         } else {
             return redirect('/');
         }
@@ -59,7 +58,8 @@ class UserController extends Controller
         return view('profile.index', ['username' => ucfirst(Auth::user()->firstname . ' ' . Auth::user()->lastname), 'role' => ucfirst(Auth::user()->role->role), 'email' => Auth::user()->email]);
     }
 
-    public function show() {
+    public function show()
+    {
         return view('employees.index', ['employees' => User::with('role')->where('id', '!=', Auth::user()->id)->get()]);
     }
 
@@ -77,6 +77,5 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
         $user->update(); //or $user->save();
         return redirect()->back()->with('status', 'Senha alterada com sucesso');
-
     }
 }

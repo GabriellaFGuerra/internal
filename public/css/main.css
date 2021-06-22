@@ -9,29 +9,52 @@
     font-family: 'Brother 1816';
 }
 
-body {
-    background-color: #020F2F;
-    color: #FFFFFF;
+.bg-sidebar, header {
+    background: #020F2F;
+}
+
+.cta-btn {
+    color: #4961E1;
+}
+
+.upgrade-btn {
+    background: #4961E1;
+}
+
+.upgrade-btn:hover {
+    background: #3A4EBB;
+}
+
+.active-nav-link {
+    background: #4961E1;
+}
+
+.nav-item:hover {
+    background: #4961E1;
+}
+
+.account-link:hover {
+    background: #4961E1;
 }
 
 .bg-dark-blue {
-    background-color: #1E4D66;
+    background-color: #020F2F;
 }
 
 .bg-light-blue {
-    background-color: #55B2FF;
+    background-color: #4169E1;
 }
 
 .text-dark-blue {
-    color: #1E4D66;
+    color: #020F2F;
 }
 
 .text-light-blue {
-    color: #55B2FF;
+    color: #4169E1;
 }
 
 .nav-text:hover {
-    color: #55B2FF;
+    color: #4169E1;
     text-decoration: none;
 }
 
@@ -55,4 +78,21 @@ div.dataTables_filter, div.dataTables_length {
 .btn-submit:hover {
     background-color: #020F2F;
     color: #4169E1;
+}
+
+@media (min-width: 640px) {
+    table {
+        display: inline-table !important;
+    }
+    thead tr:not(:first-child) {
+        display: none;
+    }
+}
+
+td:not(:last-child) {
+    border-bottom: 0;
+}
+
+th:not(:last-child) {
+    border-bottom: 2px solid rgba(0, 0, 0, .1);
 }

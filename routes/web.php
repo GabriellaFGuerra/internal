@@ -29,7 +29,6 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
-    Route::view('/home', 'home.index')->name('home')->middleware('roleCheck');
 
     Route::prefix('blueprints')->group(function () {
         Route::get('/', 'BlueprintController@index')->name('blueprints')->middleware('roleCheck');
@@ -48,7 +47,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/trash/permadelete/{id}', 'DocumentController@permadelete')->name('permadeleteDoc');
     });
 
-    Route::get('/employees/', 'UserController@show')->name('employees')->middleware('roleCheck');
+    Route::get('/employees', 'UserController@show')->name('employees')->middleware('roleCheck');
 
     Route::prefix('projects')->group(function () {
         Route::get('/', 'ProjectController@index')->name('projects')->middleware('roleCheck');
@@ -68,7 +67,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('purchases')->group(function () {
         Route::get('/', 'PurchaseController@index')->name('purchases')->middleware('roleCheck');
         Route::get('/download/{id}', 'PurchaseController@download')->name('downloadInvoice');
-        Route::post('/', 'PurchaseController@create')->name('newPurchase');
+        Route::get('/new', 'PurchaseController@create')->name('newPurchase');
+        Route::post('/', 'PurchaseController@store')->name('storePurchase');
         Route::post('/edit', 'PurchaseController@edit')->name('editPurchase');
     });
 
@@ -81,5 +81,3 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', 'UserController@profile')->name('profile');
     Route::post('/profile', 'UserController@resetpassword')->name('resetpassword');
 });
-
-
