@@ -19,6 +19,7 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
+
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
@@ -30,6 +31,5 @@ class LoginController extends Controller
             'email' => 'Não foi possível encontrar seu email',
             'password' => 'Senha incorreta'
         ]);
-
     }
 }

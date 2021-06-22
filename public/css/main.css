@@ -1,0 +1,58 @@
+@font-face {
+    font-family: 'Brother 1816';
+    src: url('../fonts/Brother-1816-Regular.woff') format('woff'), url('../fonts/Brother-1816-Regular.ttf') format('truetype'), url('../fonts/Brother-1816-Regular.eot') format('embedded-opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: 'Brother 1816';
+}
+
+body {
+    background-color: #020F2F;
+    color: #FFFFFF;
+}
+
+.bg-dark-blue {
+    background-color: #1E4D66;
+}
+
+.bg-light-blue {
+    background-color: #55B2FF;
+}
+
+.text-dark-blue {
+    color: #1E4D66;
+}
+
+.text-light-blue {
+    color: #55B2FF;
+}
+
+.nav-text:hover {
+    color: #55B2FF;
+    text-decoration: none;
+}
+
+div.dataTables_filter, div.dataTables_length {
+    margin: 2%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+@media (min-width: 1024px) {
+    .top-navbar {
+        display: inline-flex !important;
+    }
+}
+
+.btn-submit {
+    background-color: #4169E1;
+    color: #020F2F;
+}
+
+.btn-submit:hover {
+    background-color: #020F2F;
+    color: #4169E1;
+}
