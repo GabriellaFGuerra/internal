@@ -18,20 +18,26 @@ class DocumentController extends Controller
         return view('documents.index', ['documents' => $documents, 'projects' => $projects]);
     }
 
+    public function create()
+    {
+        $projects = Project::all();
+        return view('documents.add', ['projects' => $projects]);
+    }
+
     public function upload(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'document' => 'required|file|mimes:csv,txt,xlx,xls,pdf,docx,pdf',
-            'project_id' => 'nullable'
+            'files' => 'required|file|mimes:csv,txt,xlx,xls,pdf,docx,pdf',
+            'project_id' => 'required'
         ]);
 
         $project = Project::find($request->project_id);
 
-        $doc = $request->file('document');
+        $doc = $request->file('files');
         $subject = preg_replace('/[^A-Za-z0-9\-]\s+/', '_', $request->name);
         $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $subject) . '.' . $doc->getClientOriginalExtension();
-        $path = '/blueprints/' . $project->project . '/' . $name;
+        $path = '/documents/' . $project->project . '/' . $name;
         Storage::disk('public')->put($path, file_get_contents($doc));
         $save = new Document;
 
@@ -40,7 +46,6 @@ class DocumentController extends Controller
         $save->project_id = $project->id;
         $save->save();
         return redirect('documents')->with('status', 'Documento adicionado com sucesso.');
-
     }
 
     public function download($id)
@@ -54,7 +59,6 @@ class DocumentController extends Controller
         $doc = Document::find($id);
         $doc->delete();
         return back()->with('status', 'Arquivo deletado com sucesso.');
-
     }
 
     public function trash()
@@ -78,4 +82,3 @@ class DocumentController extends Controller
         return back()->with('status', 'Arquivo deletado permanentemente com sucesso.');
     }
 }
-

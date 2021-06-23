@@ -84,6 +84,7 @@
                         id="grid-invoice-key" type="text" placeholder="Chave identificadora" value="{{ old('invoice_key') }}">
                 </div>
             </div>
+
             <div class="-mx-3 md:flex">
                 <div class="w-full px-2 md:mb-0">
                     <label for="files" class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">Nota

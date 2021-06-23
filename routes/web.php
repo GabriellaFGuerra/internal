@@ -14,14 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('guest')->group(function () {
+    Route::get('/', 'Auth\LoginController@index')->name('login')->middleware('guest');
+    Route::post('/', 'Auth\LoginController@auth')->name('login.auth')->middleware('guest');
+
     Route::get('/forgotpassword', 'Auth\ForgotPasswordController@index')->name('forgotpassword')->middleware('guest');
     Route::post('/forgotpassword', 'Auth\ForgotPasswordController@getemail')->name('getemail')->middleware('guest');
 
     Route::get('/recovery/{email}/{token}', 'Auth\RecoveryController@index')->name('recovery')->middleware('guest');
     Route::post('/recovery', 'Auth\RecoveryController@recover')->name('recover')->middleware('guest');
 
-    Route::get('/', 'Auth\LoginController@index')->name('login')->middleware('guest');
-    Route::post('/', 'Auth\LoginController@auth')->name('login.auth')->middleware('guest');
 
     Route::get('/register', 'UserController@index')->name('register')->middleware('guest');
     Route::post('/register', 'UserController@store')->name('register.store')->middleware('guest');
@@ -39,7 +40,8 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('documents')->group(function () {
         Route::get('/', 'DocumentController@index')->name('documents')->middleware('roleCheck');
-        Route::post('/', 'DocumentController@upload')->name('uploadDoc');
+        Route::get('/new', 'DocumentController@create')->name('createDoc');
+        Route::post('/new', 'DocumentController@upload')->name('uploadDoc');
         Route::get('/download/{id}', 'DocumentController@download')->name('downloadDoc');
         Route::get('/delete/{id}', 'DocumentController@delete')->name('deleteDoc');
         Route::get('/trash', 'DocumentController@trash')->name('trashDoc');
@@ -68,7 +70,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', 'PurchaseController@index')->name('purchases')->middleware('roleCheck');
         Route::get('/download/{id}', 'PurchaseController@download')->name('downloadInvoice');
         Route::get('/new', 'PurchaseController@create')->name('newPurchase');
-        Route::post('/', 'PurchaseController@store')->name('storePurchase');
+        Route::post('/new', 'PurchaseController@store')->name('storePurchase');
         Route::post('/edit', 'PurchaseController@edit')->name('editPurchase');
     });
 
