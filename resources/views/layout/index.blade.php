@@ -40,6 +40,11 @@
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 
 
+    <!-- TinyMCE -->
+    <script type="text/javascript"
+        src="https://cdn.tiny.cloud/1/0jnvj5pf98dzsgqm7o7tal9ky21exdgw0k0f434ih2x49bkq/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
 
@@ -48,18 +53,18 @@
 <body>
     @if (!Route::is('login') and !Route::is('register') and !Route::is('forgotpassword') and !Route::is('recovery'))
         <div class="flex">
-            <aside class="relative sticky bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+            <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
                 <div class="p-3">
                     <a href="{{ route('profile') }}"
-                        class="text-white text-2xl font-semibold uppercase hover:text-gray-300">{{ Auth::user()->firstname }}</a>
+                        class="text-white text-xl font-semibold uppercase hover:text-gray-300">Grupo Reica</a>
                     @isset($route)
                         <a href="{{ route($route) }}"
-                            class="w-full hover:no-underline bg-white cta-btn font-semibold py-2 mt-3 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+                            class="w-full hover:no-underline bg-white cta-btn font-semibold py-1.5 mt-3 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                             <i class="fas fa-plus mr-3"></i> {{ $button }}
                         </a>
                     @endisset
                 </div>
-                <nav class="text-white text-base font-semibold pt-3">
+                <nav class="sticky text-white text-base font-semibold pt-1">
                     <a href="{{ route('profile') }}"
                         class="flex items-center hover:no-underline text-white hover:text-white {{ $action == 'Perfil' ? 'active-nav-link' : 'opacity-75' }} py-4 pl-6 nav-item">
                         <i class="fas fa-user mr-3"></i>
@@ -105,14 +110,15 @@
                         </a>
                     @endif
                 </nav>
+
                 <a href="{{ route('logout') }}"
-                    class="absolute w-full text-white upgrade-btn bottom-0 active-nav-link flex items-center hover:no-underline hover:text-white justify-center py-4">
+                    class="absolute w-full text-white upgrade-btn bottom-0 active-nav-link flex items-center hover:no-underline hover:text-white justify-center py-2">
                     <i class="fas fa-sign-out-alt mr-3"></i>
                     Sair
                 </a>
             </aside>
 
-            <div class="w-full flex flex-col h-screen overflow-y-hidden">
+            <div class="w-full flex flex-col h-full overflow-y-hidden">
                 <header x-data="{ isOpen: false }" class="w-full bg-sidebar py-3 px-6 sm:hidden">
                     <div class="flex items-center hover:no-underline justify-between">
                         <a href="index.html"
@@ -125,6 +131,12 @@
 
                     <!-- Dropdown Nav -->
                     <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
+                        @isset($route)
+                            <a href="{{ route($route) }}"
+                                class="w-full hover:no-underline bg-white cta-btn font-semibold py-1.5 mt-3 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+                                <i class="fas fa-plus mr-3"></i> {{ $button }}
+                            </a>
+                        @endisset
                         <a href="{{ route('profile') }}"
                             class="flex items-center hover:no-underline text-white hover:text-white {{ $action == 'Perfil' ? 'active-nav-link' : 'opacity-75' }} py-4 pl-6 nav-item">
                             <i class="fas fa-user mr-3"></i>
@@ -256,8 +268,8 @@
             </div>
         </div>
 
-        @else
-            @yield('login')
+    @else
+        @yield('login')
     @endif
 
 

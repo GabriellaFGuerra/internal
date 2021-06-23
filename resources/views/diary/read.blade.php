@@ -1,4 +1,4 @@
-@extends('layout.index', ['title' => 'Read mode'])
+@extends('layout.index', ['title' => 'Read mode', 'action' => 'Projetos'])
 
 @section('content')
     <!-- Flickity -->
@@ -57,7 +57,7 @@
                             @foreach ($images as $image)
                                 <div class="w-3/5 px-2 flex items-center justify-center">
                                     <img
-                                        src="{{ route('showImage', ['image_id' => $image->id]) }}"
+                                        src="{{ asset('storage/' . $image->image_path) }}"
                                         loading="lazy">
                                 </div>
                             @endforeach

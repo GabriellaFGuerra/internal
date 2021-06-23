@@ -6,6 +6,7 @@ use App\Models\Diary;
 use App\Models\Image;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Purchase;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -20,7 +21,13 @@ class ProjectController extends Controller
         return view('projects.index')->with(['users' => $users, 'projects' => $projects]);
     }
 
-    public function create(Request $request)
+    public function create()
+    {
+        $users = User::all();
+        return view('projects.add')->with(['users' => $users]);
+    }
+
+    public function store(Request $request)
     {
         $request->validate([
             'project' => 'required',
@@ -45,13 +52,52 @@ class ProjectController extends Controller
 
     public function show($id, $name)
     {
-        $info = Project::where('id', $id)->with(['documents', 'purchases', 'diaries', 'blueprints'])->first();
-        if ($info) {
-            return view('projects.project', ['name' => $name, 'project' => $info]);
+        $project = Project::where('id', $id)->with('blueprints', 'documents')->first();
+        $purchases = Purchase::where('project_id', $id)->paginate(5);
+        if ($project) {
+            return view('projects.project', ['name' => $name, 'project' => $project, 'purchases' => $purchases]);
         } else {
             return redirect()->route('projects')->withErrors(['error' => 'Projeto não encontrado.']);
         }
+    }
+    public function createEntry($id, $name)
+    {
+        $info = Project::where('id', $id)->first();
+        if ($info) {
+            return view('diary.newentry', ['id' => $id, 'name' => $name, 'project' => $info]);
+        } else {
+            return redirect()->route('projects')->withErrors(['error' => 'Projeto não encontrado.']);
+        }
+    }
 
+    public function storeEntry($id, $name, Request $request)
+    {
+        $request->validate([
+            'entry_text' => 'required',
+            'files.*' => 'nullable|mimes:jpg,jpeg,png'
+        ]);
+
+        $project = Project::where('id', $id)->first();
+        $save_entry = new Diary;
+
+        $save_entry->entry_datetime = Carbon::now();
+        $save_entry->entry_text = $request->entry_text;
+        $save_entry->project_id = $project->id;
+        $save_entry->save();
+
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $image) {
+                $imagename = str_replace(' ', '_', $project->project . '_entry_' . $save_entry->id . '_' . Carbon::now()->format('d-m-Y_H-i-s') . '_image_' . $image->getClientOriginalName());
+                Storage::disk('public')->put('/images/' . $imagename, file_get_contents($image));
+                $save_image = new Image;
+                $save_image->image_name = $imagename;
+                $save_image->image_path = 'images/' . $imagename;
+                $save_image->entry_id = $save_entry->id;
+                $save_image->save();
+            }
+        }
+
+        return redirect()->route('project', ['id' => $id, 'name' => $name])->with(['status' => 'Entrada adicionada com sucesso.']);
     }
 
     public function readEntry($id, $name, $entry_id)
@@ -66,54 +112,7 @@ class ProjectController extends Controller
         }
     }
 
-    public function showImage($image_id)
-    {
-        $img_get = Image::find($image_id);
-        return Storage::get($img_get->image_path);
-    }
-
-    public function newEntryIndex($id, $name)
-    {
-        $info = Project::where('id', $id)->first();
-        if ($info) {
-            return view('diary.newentry', ['id' => $id, 'name' => $name, 'project' => $info]);
-        } else {
-            return redirect()->route('projects')->withErrors(['error' => 'Projeto não encontrado.']);
-        }
-    }
-
-    public function newEntryCreate($id, $name, Request $request)
-    {
-        $request->validate([
-            'entry_text' => 'required',
-            'images.*' => 'nullable|mimes:jpg,jpeg,png'
-        ]);
-
-        $project = Project::where('id', $id)->first();
-        $save_entry = new Diary;
-
-        $save_entry->entry_datetime = Carbon::now();
-        $save_entry->entry_text = $request->entry_text;
-        $save_entry->project_id = $project->id;
-        $save_entry->save();
-
-        if ($request->hasFile('images')) {
-            foreach ($request->images as $image) {
-                $imagename = str_replace(' ', '_', $project->project . '_entry_' . $save_entry->id . '_' . Carbon::now()->format('d-m-Y_H-i-s') . '_image_' . $image->getClientOriginalName());
-                Storage::disk('public')->put('/images/' . $imagename, file_get_contents($image));
-                $save_image = new Image;
-                $save_image->image_name = $imagename;
-                $save_image->image_path = 'images/' . $imagename;
-                $save_image->entry_id = $save_entry->id;
-                $save_image->save();
-            }
-        }
-
-        return redirect()->route('project', ['id' => $id, 'name' => $name])->with(['status' => 'Entrada adicionada com sucesso.']);
-
-    }
-
-    public function entryEditIndex($id, $name, $entry)
+    public function editEntry($id, $name, $entry)
     {
         $p = Project::where('id', $id)->first();
         $e = Diary::where('id', $entry)->where('project_id', $p->id)->first();
@@ -125,11 +124,11 @@ class ProjectController extends Controller
         }
     }
 
-    public function entryEdit($id, $name, $entry, Request $request)
+    public function updateEntry($id, $name, $entry, Request $request)
     {
         $request->validate([
             'entry_text' => 'required',
-            'images.*' => 'nullable|mimes:jpg,jpeg,png'
+            'files.*' => 'nullable|mimes:jpg,jpeg,png'
         ]);
 
         $project = Project::where('id', $id)->first();
@@ -140,7 +139,7 @@ class ProjectController extends Controller
         $save_entry->project_id = $project->id;
         $save_entry->save();
 
-        if ($request->hasFile('images')) {
+        if ($request->hasFile('files')) {
             foreach ($request->images as $image) {
                 $imagename = str_replace(' ', '_', $project->project . '_entry_' . $save_entry->id . '_' . Carbon::now()->format('d-m-Y_H-i-s') . '_image_' . $image->getClientOriginalName());
                 Storage::disk('public')->put('/images/' . $imagename, file_get_contents($image));
@@ -153,6 +152,5 @@ class ProjectController extends Controller
         }
 
         return redirect()->route('project', ['id' => $id, 'name' => $name])->with(['status' => 'Entrada editada com sucesso.']);
-
     }
 }

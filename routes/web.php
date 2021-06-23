@@ -53,14 +53,15 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('projects')->group(function () {
         Route::get('/', 'ProjectController@index')->name('projects')->middleware('roleCheck');
-        Route::post('/', 'ProjectController@create')->name('newProject');
+        Route::get('/new', 'ProjectController@create')->name('createProject');
+        Route::post('/new', 'ProjectController@store')->name('storeProject');
         Route::get('/{id}/{name}', 'ProjectController@show')->name('project');
         Route::get('/{id}/{name}/image/{img}', 'ProjectController@showImages')->name('showImage');
-        Route::get('/{id}/{name}/diary', 'ProjectController@newEntryIndex')->name('newEntry');
-        Route::post('/{id}/{name}/diary', 'ProjectController@newEntryCreate')->name('createEntry');
+        Route::get('/{id}/{name}/diary', 'ProjectController@createEntry')->name('newEntry');
+        Route::post('/{id}/{name}/diary', 'ProjectController@storeEntry')->name('createEntry');
         Route::get('/{id}/{name}/diary/{entry_id}', 'ProjectController@readEntry')->name('readEntry');
-        Route::get('/{id}/{name}/diary/edit/{entry}', 'ProjectController@entryEditIndex')->name('editEntryForm');
-        Route::post('/{id}/{name}/diary/edit/{entry}', 'ProjectController@entryEdit')->name('editEntry');
+        Route::get('/{id}/{name}/diary/edit/{entry}', 'ProjectController@editEntry')->name('editEntryForm');
+        Route::post('/{id}/{name}/diary/edit/{entry}', 'ProjectController@updateEntry')->name('editEntry');
     });
 
     Route::get('/image/{image_id}', 'ProjectController@showImage')->name('showImage');
