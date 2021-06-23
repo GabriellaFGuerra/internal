@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Stock;
 use App\Traits\CategoryTrait;
 use Illuminate\Http\Request;
@@ -12,13 +13,17 @@ class StockController extends Controller
 
     public function index()
     {
-        $categories = $this->showCategories();
         $stocks = Stock::with('category')->paginate(10);
-        return view('stock.index')->with('stocks', $stocks)->with('categories', $categories);
-
+        return view('stock.index')->with('stocks', $stocks);
     }
 
-    public function create(Request $request)
+    public function create()
+    {
+        $categories = Category::all();
+        return view('stock.add')->with('categories', $categories);
+    }
+
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -36,7 +41,6 @@ class StockController extends Controller
         $save->category_id = $request->category_id;
         $save->save();
         return redirect('stock')->with('status', 'Item adicionado com sucesso.');
-
     }
 
     public function edit(Request $request)
@@ -57,6 +61,5 @@ class StockController extends Controller
         $save->category_id = $request->category_id;
         $save->save();
         return redirect('stock')->with('status', 'Item atualizado com sucesso.');
-
     }
 }

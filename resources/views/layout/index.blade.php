@@ -29,9 +29,6 @@
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="{{ asset('css/uikit.min.css') }}" />
 
-    <!-- Datatables -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.min.css') }}" />
-
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css"
         integrity="sha256-x8PYmLKD83R9T/sYmJn1j3is/chhJdySyhet/JuHnfY=" crossorigin="anonymous" />
@@ -289,9 +286,6 @@
 
 <!-- AlpineJS -->
 <script type="text/javascript" src="//unpkg.com/alpinejs" defer></script>
-
-<!-- Datatables -->
-<script type="text/javascript" src="{{ asset('js/datatables.min.js') }}"></script>
 
 <!-- UIkit JS -->
 <script type="text/javascript" src="{{ asset('js/uikit.min.js') }}"></script>

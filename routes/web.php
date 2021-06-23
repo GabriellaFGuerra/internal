@@ -77,7 +77,8 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('stock')->group(function () {
         Route::get('/', 'StockController@index')->name('stock')->middleware('roleCheck');
-        Route::post('/', 'StockController@create')->name('newStock');
+        Route::get('/new', 'StockController@create')->name('createStock');
+        Route::post('/new', 'StockController@store')->name('storeStock');
         Route::post('/edit', 'StockController@edit')->name('editStock');
     });
 
