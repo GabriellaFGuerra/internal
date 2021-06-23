@@ -45,7 +45,7 @@
     background-color: #020F2F;
 }
 
-.bg-light-blue {
+.bg-royal-blue {
     background-color: #4169E1;
 }
 
@@ -82,8 +82,8 @@ div.dataTables_filter, div.dataTables_length {
 }
 
 .btn-submit:hover {
-    background-color: #020F2F;
-    color: #4169E1;
+    background-color: #FFFFFF;
+    color: #020F2F;
 }
 
 @media (min-width: 640px) {
@@ -101,4 +101,26 @@ td:not(:last-child) {
 
 th:not(:last-child) {
     border-bottom: 2px solid rgba(0, 0, 0, .1);
+}
+
+.float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #4169E1;
+    color: #FFFFFF;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 2px 2px 3px #3A4EBB;
+}
+
+.float:hover {
+    background-color: #3A4EBB;
+    color: #FFFFFF;
+}
+
+.my-float {
+    margin-top: 22px;
 }

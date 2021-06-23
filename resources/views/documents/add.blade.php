@@ -5,7 +5,7 @@
         @csrf
         <div class="flex flex-col">
             <div class="md:w-full px-3 mb-6 md:mb-0">
-                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-name">
+                <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2" for="grid-name">
                     Nome do documento (sem extensão)
                 </label>
                 <input name="name"
@@ -14,7 +14,7 @@
             </div>
 
             <div class="w-full py-3 px-4" id="grid-project-dropdown">
-                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-project">
+                <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2" for="grid-project">
                     Projeto
                 </label>
                 <select name="project_id"
@@ -31,7 +31,7 @@
             <div class="-mx-3 md:flex">
                 <div class="w-full px-2 md:mb-0">
                     <label for="files"
-                        class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">Arquivo</label><br>
+                        class="block uppercase tracking-wide text-white text-xs font-bold mb-2">Arquivo</label><br>
                     <input type="file" class="file" name="files" id="files" data-browse-on-zone-click="true" required
                         multiple>
                     @error('files')

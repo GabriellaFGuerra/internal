@@ -60,14 +60,14 @@
         </div>
         <div class="container">
             <table class="w-full rounded-lg overflow-hidden sm:shadow-lg my-5">
-                <thead class="text-white">
-                    <tr class="bg-dark-blue rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+                <thead class="bg-white text-gray-900">
+                    <tr class="rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
                         <th class="p-3 text-left">Item</th>
                         <th class="p-3 text-left">Categoria</th>
                         <th class="p-3 text-left">Preço total</th>
                     </tr>
                 </thead>
-                <tbody class="">
+                <tbody class="bg-white opacity-50 text-gray-900">
                     @foreach ($purchases as $purchase)
                         <tr class="">
                             <td class="border-grey-light border hover:bg-gray-100 p-3">{{ $purchase->item }}</td>

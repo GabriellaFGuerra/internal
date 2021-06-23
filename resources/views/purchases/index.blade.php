@@ -3,9 +3,9 @@
 
 @section('content')
     <div class="container">
-        <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg my-5">
-            <thead class="text-white">
-                <tr class="bg-dark-blue flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+        <table class="w-full rounded-lg overflow-hidden sm:shadow-lg my-5">
+            <thead class="bg-white text-gray-900">
+                <tr class="rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
                     <th class="p-3 text-left">Item</th>
                     <th class="p-3 text-left">Categoria</th>
                     <th class="p-3 text-left">Quantidade</th>
@@ -15,7 +15,7 @@
                     <th class="p-3 text-left" width="110px">Ações</th>
                 </tr>
             </thead>
-            <tbody class="flex-1 sm:flex-none">
+            <tbody class="bg-white opacity-50 text-gray-900">
                 @foreach ($purchases as $purchase)
                     <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
                         <td class="border-grey-light border hover:bg-gray-100 p-3">{{ $purchase->item }}</td>

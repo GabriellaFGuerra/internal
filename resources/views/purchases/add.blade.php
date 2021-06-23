@@ -6,7 +6,7 @@
         <div class="flex flex-col">
             <div class="-mx-3 md:flex">
                 <div class="w-full px-2">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-name">
+                    <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2" for="grid-name">
                         Item
                     </label>
                     <input name="name"
@@ -16,7 +16,7 @@
             </div>
             <div class="-mx-3 md:flex">
                 <div class="w-full px-2">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-price">
+                    <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2" for="grid-price">
                         Valor unitário
                     </label>
                     <input name="vl_unit"
@@ -24,7 +24,7 @@
                         id="grid-price" type="number" step="0.01" placeholder="Valor unitário" value="{{ old('vl_unit') }}">
                 </div>
                 <div class="w-full px-2">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                    <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2"
                         for="grid-quantity">
                         Quantidade
                     </label>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="w-full px-2" id="grid-category-dropdown">
-                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2"
                     for="grid-category-create">
                     Categoria
                 </label>
@@ -48,7 +48,7 @@
                 </select>
             </div>
             <div class="w-full px-2" id="grid-project-dropdown">
-                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2"
                     for="grid-project-create">
                     Projeto
                 </label>
@@ -64,7 +64,7 @@
             </div>
             <div class="-mx-3 md:flex">
                 <div class="w-full px-2 md:mb-0">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                    <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2"
                         for="grid-provider">
                         Fornecedor
                     </label>
@@ -75,7 +75,7 @@
             </div>
             <div class="-mx-3 md:flex">
                 <div class="w-full px-2 md:mb-0">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                    <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2"
                         for="grid-invoice-key">
                         Chave identificadora
                     </label>
@@ -87,7 +87,7 @@
 
             <div class="-mx-3 md:flex">
                 <div class="w-full px-2 md:mb-0">
-                    <label for="files" class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">Nota
+                    <label for="files" class="block uppercase tracking-wide text-white text-xs font-bold mb-2">Nota
                         fiscal</label><br>
                     <input type="file" class="file" name="files" id="files" data-browse-on-zone-click="true" required
                         multiple>

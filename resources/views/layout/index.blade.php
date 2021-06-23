@@ -50,7 +50,7 @@
 
 </head>
 
-<body>
+<body class="bg-sidebar">
     @if (!Route::is('login') and !Route::is('register') and !Route::is('forgotpassword') and !Route::is('recovery'))
         <div class="flex">
             <aside class="sticky top-0 bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
@@ -191,9 +191,9 @@
 
 
 
-                <div class="w-full overflow-x-hidden border-t flex flex-col">
+                <div class="w-full overflow-x-hidden flex flex-col">
                     <main class="w-full flex-grow p-6">
-                        <h1 class="text-3xl text-black">{{ $action }}</h1>
+                        <h1 class="text-3xl text-white">{{ $title }}</h1>
                         @if ($errors->any())
                             <div
                                 class="alert flex flex-row items-center bg-red-200 p-5 rounded border-b-2 border-red-300">
