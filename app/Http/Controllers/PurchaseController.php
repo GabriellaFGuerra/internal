@@ -70,7 +70,15 @@ class PurchaseController extends Controller
         return Storage::download($purchase->invoice_path);
     }
 
-    public function edit(Request $request)
+    public function edit($id)
+    {
+        $categories = $this->showCategories();
+        $projects = $this->showProjects();
+        $purchase = Purchase::find($id);
+        return view('purchases.edit', ['categories' => $categories, 'projects' => $projects, 'purchase' => $purchase]);
+    }
+
+    public function update(Request $request, $id)
     {
 
         $request->validate([
@@ -79,20 +87,12 @@ class PurchaseController extends Controller
             'quantity' => 'required|int',
             'provider' => 'required',
             'invoice_key' => 'nullable',
-            'invoice' => 'nullable|file|mimes:png,jpeg,jpg,pdf',
             'project_id' => 'nullable',
             'category_id' => 'nullable',
         ]);
 
-        $save = Purchase::find($request->purchase_id);
-        if (isset($request->invoice)) {
-            $subject = preg_replace('/[^A-Za-z0-9\-]\s+/', '_', $request->name);
-            $invoice = $request->file('invoice');
-            $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $subject) . '.' . $invoice->getClientOriginalExtension();
-            $path = '/invoices/' . $name;
-            Storage::disk('public')->put($path, file_get_contents($invoice));
-            $save->invoice_path = $path;
-        }
+        $save = Purchase::find($id);
+
         $save->item = $request->name;
         $save->category_id = $request->category_id;
         $save->project_id = $request->project_id;
@@ -103,5 +103,16 @@ class PurchaseController extends Controller
         $save->invoice_key = $request->invoice_key;
         $save->update();
         return redirect('purchases')->with('status', 'Compra atualizada com sucesso.');
+    }
+
+    public function delete($id)
+    {
+        $delete = Purchase::find($id);
+        try {
+            $delete->delete();
+            return redirect('purchases')->with('status', 'Compra deletada com sucesso.');
+        } catch (\Exception $e) {
+            return redirect('purchases')->with('error', $e->getMessage());
+        }
     }
 }

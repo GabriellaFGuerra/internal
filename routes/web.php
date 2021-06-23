@@ -33,9 +33,13 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('blueprints')->group(function () {
         Route::get('/', 'BlueprintController@index')->name('blueprints')->middleware('roleCheck');
-        Route::get('/{id_project}/{project_name}', 'BlueprintController@show')->name('blueprint');
-        Route::post('/{id_project}/{project_name}', 'BlueprintController@upload')->name('uploadBlueprint');
-        Route::get('/{id_project}/{project_name}/download/{id}', 'BlueprintController@download')->name('downloadBlueprint');
+        Route::prefix('/{id_project}/{project_name}')->group(function () {
+            Route::get('/', 'BlueprintController@show')->name('blueprint');
+            Route::get('/new', 'BlueprintController@create')->name('createBlueprint');
+            Route::post('/new', 'BlueprintController@store')->name('storeBlueprint');
+            Route::get('/download/{id}', 'BlueprintController@download')->name('downloadBlueprint');
+            Route::get('/delete/{id}', 'BlueprintController@delete')->name('deleteBlueprint');
+        });
     });
 
     Route::prefix('documents')->group(function () {
@@ -72,16 +76,20 @@ Route::middleware('auth')->group(function () {
         Route::get('/download/{id}', 'PurchaseController@download')->name('downloadInvoice');
         Route::get('/new', 'PurchaseController@create')->name('newPurchase');
         Route::post('/new', 'PurchaseController@store')->name('storePurchase');
-        Route::post('/edit', 'PurchaseController@edit')->name('editPurchase');
+        Route::get('/edit/{id}', 'PurchaseController@edit')->name('editPurchase');
+        Route::post('/edit/{id}', 'PurchaseController@update')->name('updatePurchase');
+        Route::get('/delete/{id}', 'PurchaseController@delete')->name('deletePurchase');
     });
 
     Route::prefix('stock')->group(function () {
         Route::get('/', 'StockController@index')->name('stock')->middleware('roleCheck');
         Route::get('/new', 'StockController@create')->name('createStock');
         Route::post('/new', 'StockController@store')->name('storeStock');
-        Route::post('/edit', 'StockController@edit')->name('editStock');
+        Route::get('/edit/{id}', 'StockController@edit')->name('editItem');
+        Route::post('/edit/{id}', 'StockController@update')->name('updateItem');
+        Route::get('/delete/{id}', 'StockController@delete')->name('deleteItem');
     });
 
-    Route::get('/profile', 'UserController@profile')->name('profile');
-    Route::post('/profile', 'UserController@resetpassword')->name('resetpassword');
+    Route::get('/home', 'UserController@profile')->name('home');
+    Route::post('/home', 'UserController@resetpassword')->name('resetpassword');
 });

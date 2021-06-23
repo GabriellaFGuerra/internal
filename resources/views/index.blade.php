@@ -1,6 +1,6 @@
 @extends('layout.index', ['title' => 'Login'])
 
-@section('login')
+@section('auth')
     <style>
         .hover-text:hover {
             color: #020F2F;

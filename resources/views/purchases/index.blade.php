@@ -32,9 +32,14 @@
                             <td class="border-grey-light border hover:bg-gray-100 p-3">{{ $purchase->total_value }}</td>
                             <td class="border-grey-light border hover:bg-gray-100 p-3">{{ $purchase->provider }}</td>
                             <td class="border-grey-light border hover:bg-gray-100 p-3">{{ $purchase->invoice_key }}</td>
-                            <td
-                                class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">
-                                Deletar</td>
+                            <td class="border-grey-light border hover:bg-gray-100 p-3">
+                                <a href="{{ route('editPurchase', $purchase->id) }}" class="hover:no-underline">
+                                    <span
+                                        class="text-blue-400 hover:text-blue-600 hover:font-medium cursor-pointer px-2">Editar</span></a>
+                                <a href="{{ route('deletePurchase', $purchase->id) }}" class="hover:no-underline">
+                                    <span
+                                        class="text-red-400 hover:text-red-600 hover:font-medium cursor-pointer px-2">Deletar</span></a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

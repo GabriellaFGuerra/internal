@@ -26,15 +26,17 @@
     <!-- jQuery -->
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
 
-    <!-- UIkit CSS -->
+    <!-- UIkit CSS
     <link rel="stylesheet" href="{{ asset('css/uikit.min.css') }}" />
-
+-->
+    <!-- Material Icons
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css"
         integrity="sha256-x8PYmLKD83R9T/sYmJn1j3is/chhJdySyhet/JuHnfY=" crossorigin="anonymous" />
+-->
 
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-    <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 
 
     <!-- TinyMCE -->
@@ -42,9 +44,9 @@
         src="https://cdn.tiny.cloud/1/0jnvj5pf98dzsgqm7o7tal9ky21exdgw0k0f434ih2x49bkq/tinymce/5/tinymce.min.js"
         referrerpolicy="origin"></script>
 
-    <!-- Select2 -->
+    <!-- Select2
     <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}" />
-
+-->
 </head>
 
 <body class="bg-sidebar">
@@ -52,7 +54,7 @@
         <div class="flex">
             <aside class="sticky top-0 bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
                 <div class="p-3">
-                    <a href="{{ route('profile') }}"
+                    <a href="{{ route('home') }}"
                         class="text-white text-xl font-semibold uppercase hover:text-gray-300">Grupo Reica</a>
                     @isset($route)
                         <a href="{{ route($route) }}"
@@ -62,7 +64,7 @@
                     @endisset
                 </div>
                 <nav class="sticky text-white text-base font-semibold pt-1">
-                    <a href="{{ route('profile') }}"
+                    <a href="{{ route('home') }}"
                         class="flex items-center hover:no-underline text-white hover:text-white {{ $action == 'Perfil' ? 'active-nav-link' : 'opacity-75' }} py-4 pl-6 nav-item">
                         <i class="fas fa-user mr-3"></i>
                         Perfil
@@ -134,7 +136,7 @@
                                 <i class="fas fa-plus mr-3"></i> {{ $button }}
                             </a>
                         @endisset
-                        <a href="{{ route('profile') }}"
+                        <a href="{{ route('home') }}"
                             class="flex items-center hover:no-underline text-white hover:text-white {{ $action == 'Perfil' ? 'active-nav-link' : 'opacity-75' }} py-4 pl-6 nav-item">
                             <i class="fas fa-user mr-3"></i>
                             Perfil
@@ -266,7 +268,7 @@
         </div>
 
     @else
-        @yield('login')
+        @yield('auth')
     @endif
 
 
@@ -281,16 +283,16 @@
 <script src="{{ asset('js/fileinput-lang/pt-BR.js') }}"></script>
 <script src="{{ asset('js/fileinput-theme/theme.js') }}"></script>
 
-<!-- jQuery Mask -->
+<!-- jQuery Mask
 <script type="text/javascript" src="{{ asset('js/jquery.mask.min.js') }}"></script>
-
+-->
 <!-- AlpineJS -->
 <script type="text/javascript" src="//unpkg.com/alpinejs" defer></script>
 
-<!-- UIkit JS -->
+<!-- UIkit JS
 <script type="text/javascript" src="{{ asset('js/uikit.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/uikit-icons.min.js') }}"></script>
-
+-->
 <script>
     $("#files").fileinput({
         theme: "fas",

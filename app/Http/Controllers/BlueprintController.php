@@ -28,23 +28,31 @@ class BlueprintController extends Controller
         }
     }
 
-    public function upload($id_project, $project_name, Request $request)
+    public function create($id_project, $project_name)
+    {
+        return view('blueprints.add', ['id_project' => $id_project, 'project_name' => $project_name]);
+    }
+
+    public function store($id_project, $project_name, Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'blueprint' => 'required|image|mimes:jpg,jpeg,png'
+            'files.*' => 'required|image|mimes:jpg,jpeg,png'
         ]);
-
-        $blueprint = $request->file('blueprint');
-        $subject = preg_replace('/[^A-Za-z0-9\-]\s+/', '_', $request->name);
-        $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $subject) . '.' . $blueprint->getClientOriginalExtension();
-        $path = '/blueprints/' . $project_name . '/' . $name;
-        Storage::disk('public')->put($path, file_get_contents($blueprint));
-        $save = new Blueprint;
-        $save->blueprint = $name;
-        $save->blueprint_path = $path;
-        $save->project_id = $id_project;
-        $save->save();
+        if ($request->hasFile('files')) {
+            $loop = 0;
+            foreach ($request->file('files') as $image) {
+                $subject = preg_replace('/[^A-Za-z0-9\-]\s+/', '_', $request->name);
+                $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $subject) .  '_' . $loop++ . '.' . $image->getClientOriginalExtension();
+                $path = '/blueprints/' . $project_name . '/' . $name;
+                Storage::disk('public')->put($path, file_get_contents($image));
+                $save = new Blueprint;
+                $save->blueprint = $name;
+                $save->blueprint_path = $path;
+                $save->project_id = $id_project;
+                $save->save();
+            }
+        }
         return redirect()->route('blueprint', ['id_project' => $id_project, 'project_name' => $project_name])->with('status', 'Planta adicionada com sucesso.');
     }
 
@@ -52,5 +60,12 @@ class BlueprintController extends Controller
     {
         $blueprint = Blueprint::find($id);
         return Storage::download($blueprint->blueprint_path);
+    }
+
+    public function delete($id_project, $project_name, $id)
+    {
+        $delete = Blueprint::find($id);
+        $delete->delete();
+        return redirect()->route('blueprint', ['id_project' => $id_project, 'project_name' => $project_name])->with('status', 'Planta deletada com sucesso.');
     }
 }

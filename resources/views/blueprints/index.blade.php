@@ -1,21 +1,23 @@
-@extends('layout.index', ['title' => 'Plantas'])
+@extends('layout.index', ['title' => 'Plantas', 'action' => 'Plantas'])
 
 @section('content')
-    <div class="px-0 md:px-0.5 lg:px-48 overflow-x-hidden justify-center items-center flex flex-row flex-wrap w-auto md:grid md:grid-cols-3 md:grid-flow-row gap-10 md:gap-0 sm:gap-2">
+    <div class="flex flex-row flex-wrap text-white grid md:grid-cols-3">
         @foreach ($projects as $project)
-            <a href="{{route('blueprint', ['id_project' => $project->id, 'project_name' => $project->project])}}"
-               class="hover:no-underline">
-                <div class="w-64 cursor-pointer border b-gray-400 rounded flex flex-col justify-center items-center text-center p-3 bg-white my-5">
-                    <div class="w-32 h-32 flex items-center justify-center">
-                        <i class="far fa-folder fa-7x"></i>
+            <div class="py-6 px-3 text-white w-full">
+                <div class="shadow-xl rounded-lg overflow-hidden bg-dark-blue ">
+                    <div class="p-4">
+                        <p class="text-3xl">
+                            <a class="hover:no-underline link" href="{{ route('blueprint', ['id_project' => $project->id, 'project_name' => $project->project]) }}
+                                ">{{ str_replace('_', ' ', ucwords($project->project, '_')) }}</a>
+                        </p>
+                        <p>
+                            Clique para ver as plantas do projeto
+                        </p>
                     </div>
-
-                    <p class="text-2xl text-light-blue uppercase sm:text-2xl md:text-xl hover:underline">{{ str_replace('_', ' ', $project->project) }}</p>
-
                 </div>
-            </a>
+            </div>
+
         @endforeach
     </div>
-
 
 @endsection
