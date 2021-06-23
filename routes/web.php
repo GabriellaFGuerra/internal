@@ -57,8 +57,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/new', 'ProjectController@store')->name('storeProject');
         Route::get('/{id}/{name}', 'ProjectController@show')->name('project');
         Route::get('/{id}/{name}/image/{img}', 'ProjectController@showImages')->name('showImage');
-        Route::get('/{id}/{name}/diary', 'ProjectController@createEntry')->name('newEntry');
-        Route::post('/{id}/{name}/diary', 'ProjectController@storeEntry')->name('createEntry');
+        Route::get('/{id}/{name}/diary', 'ProjectController@createEntry')->name('createEntry');
+        Route::post('/{id}/{name}/diary', 'ProjectController@storeEntry')->name('storeEntry');
         Route::get('/{id}/{name}/diary/{entry_id}', 'ProjectController@readEntry')->name('readEntry');
         Route::get('/{id}/{name}/diary/edit/{entry}', 'ProjectController@editEntry')->name('editEntryForm');
         Route::post('/{id}/{name}/diary/edit/{entry}', 'ProjectController@updateEntry')->name('editEntry');

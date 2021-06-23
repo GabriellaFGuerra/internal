@@ -53,7 +53,7 @@
 <body>
     @if (!Route::is('login') and !Route::is('register') and !Route::is('forgotpassword') and !Route::is('recovery'))
         <div class="flex">
-            <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+            <aside class="sticky top-0 bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
                 <div class="p-3">
                     <a href="{{ route('profile') }}"
                         class="text-white text-xl font-semibold uppercase hover:text-gray-300">Grupo Reica</a>

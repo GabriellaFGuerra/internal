@@ -53,7 +53,7 @@ class ProjectController extends Controller
     public function show($id, $name)
     {
         $project = Project::where('id', $id)->with('blueprints', 'documents')->first();
-        $purchases = Purchase::where('project_id', $id)->paginate(5);
+        $purchases = Purchase::where('project_id', $id)->paginate(10);
         if ($project) {
             return view('projects.project', ['name' => $name, 'project' => $project, 'purchases' => $purchases]);
         } else {

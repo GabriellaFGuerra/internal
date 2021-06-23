@@ -34,7 +34,7 @@
             <div class="bg-white">
                 <div class="px-10 py-2 mb-10 text-center">
                     <div class="text-2xl font-bold text-dark-blue mb-4">Diário
-                        <a type="button" href="{{ route('newEntry', ['id' => $project->id, 'name' => $name]) }}"
+                        <a type="button" href="{{ route('createEntry', ['id' => $project->id, 'name' => $name]) }}"
                             class="focus:outline-none mt-0.5 text-dark-blue hover:text-light-blue">
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -59,18 +59,17 @@
             Custos do projeto
         </div>
         <div class="container">
-            <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg my-5">
+            <table class="w-full rounded-lg overflow-hidden sm:shadow-lg my-5">
                 <thead class="text-white">
-                    <tr
-                        class="bg-dark-blue flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+                    <tr class="bg-dark-blue rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
                         <th class="p-3 text-left">Item</th>
                         <th class="p-3 text-left">Categoria</th>
                         <th class="p-3 text-left">Preço total</th>
                     </tr>
                 </thead>
-                <tbody class="flex-1 sm:flex-none">
-                    @foreach ($project->purchases as $purchase)
-                        <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+                <tbody class="">
+                    @foreach ($purchases as $purchase)
+                        <tr class="">
                             <td class="border-grey-light border hover:bg-gray-100 p-3">{{ $purchase->item }}</td>
                             <td class="border-grey-light border hover:bg-gray-100 p-3">
                                 @if ($purchase->category === null)
@@ -82,9 +81,12 @@
                             <td class="border-grey-light border hover:bg-gray-100 p-3">{{ $purchase->total_value }}</td>
                         </tr>
                     @endforeach
+
                 </tbody>
             </table>
         </div>
+        {{ $purchases->links() }}
+
 
     </main>
 @endsection

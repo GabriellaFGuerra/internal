@@ -19,7 +19,7 @@
                     <div class="w-full px-2 md:mb-0">
                         <label for="files"
                             class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">Imagens</label><br>
-                        <input type="file" class="file" name="files[]" id="files" data-browse-on-zone-click="true" required
+                        <input type="file" class="file" name="files[]" id="files" data-browse-on-zone-click="true"
                             multiple>
                         @error('files')
                             <span class="invalid-feedback" role="alert">
