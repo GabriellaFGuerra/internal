@@ -18,7 +18,7 @@ class PurchaseController extends Controller
 
         $categories = $this->showCategories();
         $projects = $this->showProjects();
-        $purchases = Purchase::with('category')->get();
+        $purchases = Purchase::with('category')->paginate(10);
         return view('purchases.index')->with(['purchases' => $purchases, 'categories' => $categories, 'projects' => $projects]);
     }
 

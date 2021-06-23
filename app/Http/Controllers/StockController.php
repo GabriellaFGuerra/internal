@@ -13,7 +13,7 @@ class StockController extends Controller
     public function index()
     {
         $categories = $this->showCategories();
-        $stocks = Stock::with('category')->get();
+        $stocks = Stock::with('category')->paginate(10);
         return view('stock.index')->with('stocks', $stocks)->with('categories', $categories);
 
     }

@@ -13,7 +13,7 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $documents = Document::all();
+        $documents = Document::paginate(10);
         $projects = Project::all();
         return view('documents.index', ['documents' => $documents, 'projects' => $projects]);
     }
