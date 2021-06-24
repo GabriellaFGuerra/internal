@@ -57,7 +57,7 @@
                             @foreach ($images as $image)
                                 <div class="w-3/5 px-2 flex items-center justify-center">
                                     <img
-                                        src="{{ asset('storage/' . $image->image_path) }}"
+                                        src="{{ asset('storage/app/public' . $image->image_path) }}"
                                         loading="lazy">
                                 </div>
                             @endforeach

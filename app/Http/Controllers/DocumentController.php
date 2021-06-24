@@ -51,7 +51,7 @@ class DocumentController extends Controller
     public function download($id)
     {
         $doc = Document::find($id);
-        return Storage::download($doc->document_path);
+        return Storage::download('public/' . $doc->document_path);
     }
 
     public function delete($id)

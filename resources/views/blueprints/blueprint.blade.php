@@ -33,7 +33,7 @@
                     <div
                         class="w-64 cursor-pointer border b-gray-400 rounded flex flex-col justify-center items-center text-center p-3 bg-white">
                         <div class="w-32 h-32 flex items-center justify-center">
-                            <img src="{{ asset('storage' . $blueprint->blueprint_path) }}">
+                            <img src="{{ asset('storage/app/public/' . $blueprint->blueprint_path) }}">
                         </div>
 
                         <p class="uppercase text-lg hover:underline">{{ $blueprint->blueprint }}</p>
