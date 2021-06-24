@@ -32,7 +32,7 @@
                         <input type="password" name="password"
                             class="border rounded-lg px-3 py-2 sm:py-0 mt-1 mb-5 text-sm w-full @error('email') border-red-500 @enderror" />
                         <button type="submit"
-                            class="transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block btn-submit">
+                            class="transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block btn-submit-auth">
                             <span class="inline-block mr-2">Login</span>
                         </button>
                     </form>

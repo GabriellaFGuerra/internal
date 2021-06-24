@@ -20,8 +20,8 @@
                                 </a>
                             </td>
                             <td
-                                class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">
-                                <a href="{{ route('deleteDoc', ['id' => $document->id]) }}">
+                                class="border-grey-light border hover:bg-gray-100 p-3 hover:font-medium cursor-pointer">
+                                <a href="{{ route('deleteDoc', ['id' => $document->id]) }}" class="text-red-400 hover:text-red-600 hover:no-underline">
                                     Deletar
                                 </a>
                             </td>

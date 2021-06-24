@@ -86,6 +86,16 @@ div.dataTables_filter, div.dataTables_length {
     color: #020F2F;
 }
 
+.btn-submit-auth {
+    background-color: #4169E1;
+    color: #020F2F;
+}
+
+.btn-submit-auth:hover {
+    background-color: #020F2F;
+    color: #FFFFFF;
+}
+
 @media (min-width: 640px) {
     table {
         display: inline-table !important;

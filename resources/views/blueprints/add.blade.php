@@ -40,7 +40,7 @@
         </div>
         <div class="flex place-items-end py-5">
             <button type="submit" class="focus:outline-none btn-submit text-sm py-2.5 px-5 rounded-full">
-                Criar projeto
+                Adicionar planta
             </button>
         </div>
     </form>

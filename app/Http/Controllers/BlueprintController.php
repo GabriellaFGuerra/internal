@@ -59,7 +59,7 @@ class BlueprintController extends Controller
     public function download($id_project, $project_name, $id)
     {
         $blueprint = Blueprint::find($id);
-        return Storage::download($blueprint->blueprint_path);
+        return Storage::download('public/' . $blueprint->blueprint_path);
     }
 
     public function delete($id_project, $project_name, $id)

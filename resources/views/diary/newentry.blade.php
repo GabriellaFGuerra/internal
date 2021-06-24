@@ -1,13 +1,13 @@
 @extends('layout.index', ['title' => 'New Entry', 'action' => 'Projetos'])
 
 @section('content')
-    <div class="p-5 bg-white rounded-md w-full">
+    <div class="p-5 w-full">
         <form method="post" action="{{ route('createEntry', ['id' => $id, 'name' => $name]) }}"
             enctype="multipart/form-data">
             @csrf
             <div class="flex flex-col">
                 <div class="flex w-full h-auto justify-center items-center">
-                    <div class="flex w-10/12 h-auto py-3 justify-center items-center font-bold text-lg md:text-2xl">
+                    <div class="text-white flex w-10/12 h-auto py-3 justify-center items-center font-bold text-lg md:text-2xl">
                         Nova entrada - {{ date('d/m/Y H:i') }}
                     </div>
                 </div>
@@ -18,7 +18,7 @@
                 <div class="-mx-3 md:flex my-5">
                     <div class="w-full px-2 md:mb-0">
                         <label for="files"
-                            class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">Imagens</label><br>
+                            class="block uppercase tracking-wide text-white text-xs font-bold mb-2">Imagens</label><br>
                         <input type="file" class="file" name="files[]" id="files" data-browse-on-zone-click="true"
                             multiple>
                         @error('files')

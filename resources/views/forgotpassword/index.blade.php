@@ -1,29 +1,27 @@
 @extends('layout.index', ['title' => 'Password Reset'])
 
-@section('content')
-    <div class="w-full">
-        <div class="flex items-center justify-center h-screen">
-            <div class="container mx-24 bg-white rounded shadow-lg">
-                <div class="px-12 py-6">
-                    <div class="text-center">
-                        <h1 class="font-normal text-3xl text-grey-darkest leading-loose my-3 w-full">Recuperar
-                            senha</h1>
-                        <div class="w-full text-center">
-                            <form action="{{ route('getemail') }}" method="POST">
-                                @csrf
-                                <div class="max-w-sm mx-auto p-1 pr-0 flex items-center">
-                                    <input
-                                        name="email"
-                                        class="rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-800 bg-white focus:outline-none"
-                                        placeholder="your@mail.com"/>
-                                    <button
-                                        class="px-8 rounded-r-lg bg-blue-400 text-gray-800 border-gray-800 border-t border-b border-r font-bold focus:outline-none p-4 uppercase">
-                                        Recuperar
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+@section('auth')
+    <div class="login min-h-screen flex flex-col justify-center sm:py-12">
+        <div class="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
+            <img src="{{ asset('img/logo.png') }}" />
+            <div class="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
+                <div class="px-5 py-7">
+                    <form method="post" action="{{ route('getemail') }}">
+                        @csrf
+                        <label class="font-semibold text-sm text-gray-600 pb-1 block">Email</label>
+                        @error('email')
+                            <span class="flex items-center font-medium tracking-wide text-red-500 text-xs">
+                                Email não encontrado
+                            </span>
+                        @enderror
+                        <input type="email" name="email"
+                            class="border-2 border-gray-400 rounded-lg px-3 py-2 sm:py-0 mt-1 mb-5 text-sm w-full @error('email') border-red-500 @enderror" />
+
+                        <button type="submit"
+                            class="transition duration-200 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block btn-submit-auth">
+                            <span class="inline-block mr-2">Login</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

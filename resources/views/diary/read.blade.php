@@ -29,7 +29,7 @@
     <div class="flex flex-col px-5 md:px-10 py-10">
         <div class="flex w-full h-auto justify-center items-center">
             <div
-                class="w-full h-auto text-center py-3 font-bold text-lg md:text-2xl">
+                class="w-full h-auto text-center text-white py-3 font-bold text-lg md:text-2xl">
                 {{ date('d/m/Y H:i:s', strtotime($diary->entry_datetime)) }}
 
                 <a
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div>{!! $diary->entry_text !!}</div>
+        <div class="text-white">{!! $diary->entry_text !!}</div>
 
         <main class="flex items-center justify-center w-full hidden md:block px-10" x-data="carouselFilter()">
             <div class="container grid grid-cols-1">

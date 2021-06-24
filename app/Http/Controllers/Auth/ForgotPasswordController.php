@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -24,20 +25,27 @@ class ForgotPasswordController extends Controller
             'email' => 'required|email|exists:users'
         ]);
 
+        $user = User::where('email', $request->email)->first();
+
+        if ($user->email != $request->email) {
+            return redirect()->back()->withErrors(['email' => 'Email não encontrado']);
+        }
+
         //Create Password Reset Token
         DB::table('password_resets')->insert([
             'email' => $request->email,
             'token' => Str::random(16),
             'created_at' => Carbon::now()
         ]);
-//Get the token just created above
+        //Get the token just created above
         $tokenData = DB::table('password_resets')
             ->where('email', $request->email)->first();
 
-        if ($this->sendResetEmail($request->email, $tokenData->token)) {
+        try {
+            $this->sendResetEmail($request->email, $tokenData->token);
             return redirect()->back()->with('status', 'Um link para recuperação de senha foi enviado ao seu email.');
-        } else {
-            return redirect()->back()->withErrors(['error' => 'Ocorreu um erro, tente novamente.']);
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 
@@ -49,8 +57,8 @@ class ForgotPasswordController extends Controller
 
         try {
             Mail::send('forgotpassword.mail', ['email' => $user->email, 'token' => $token], function ($message) use ($user) {
-                $message->from('noreply@reica.com');
-                $message->subject('Password reset');
+                $message->from('noreply@gruporeica.com.br');
+                $message->subject('Recuperação de senha');
                 $message->to($user->email);
             });
             return true;
