@@ -65,6 +65,7 @@ class BlueprintController extends Controller
     public function delete($id_project, $project_name, $id)
     {
         $delete = Blueprint::find($id);
+        Storage::delete($delete->blueprint_path);
         $delete->delete();
         return redirect()->route('blueprint', ['id_project' => $id_project, 'project_name' => $project_name])->with('status', 'Planta deletada com sucesso.');
     }

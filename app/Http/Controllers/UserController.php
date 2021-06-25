@@ -69,7 +69,7 @@ class UserController extends Controller
             'password' => 'required|confirmed|min:8',
             'oldpassword' => 'required|min:8'
         ]);
-        $user = Auth::user();
+        $user = User::where('id', Auth::user()->id)->first();
         // Redirect the user back if the password is invalid
         if (!Hash::check($request->oldpassword, $user->password)) {
             return redirect()->back()->withErrors(['error' => 'A senha atual está incorreta']);

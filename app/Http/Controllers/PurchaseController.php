@@ -3,29 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Purchase;
-use App\Traits\ProjectTrait;
+use App\Models\Category;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Traits\CategoryTrait;
 
 class PurchaseController extends Controller
 {
-    use CategoryTrait;
-    use ProjectTrait;
-
     public function index()
     {
 
-        $categories = $this->showCategories();
-        $projects = $this->showProjects();
+        $categories = Category::orderBy('category')->all();
+        $projects = Project::orderBy('project')->all();
         $purchases = Purchase::with('category')->paginate(10);
         return view('purchases.index')->with(['purchases' => $purchases, 'categories' => $categories, 'projects' => $projects]);
     }
 
     public function create()
     {
-        $categories = $this->showCategories();
-        $projects = $this->showProjects();
+        $categories = Category::orderBy('category')->all();
+        $projects = Project::orderBy('project')->all();
         return view('purchases.add', ['categories' => $categories, 'projects' => $projects]);
     }
 
@@ -109,6 +106,7 @@ class PurchaseController extends Controller
     {
         $delete = Purchase::find($id);
         try {
+            Storage::delete($delete->invoice_path);
             $delete->delete();
             return redirect('purchases')->with('status', 'Compra deletada com sucesso.');
         } catch (\Exception $e) {

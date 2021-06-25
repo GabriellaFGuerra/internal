@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Stock;
-use App\Traits\CategoryTrait;
 use Illuminate\Http\Request;
 
 class StockController extends Controller
 {
-    use CategoryTrait;
 
     public function index()
     {
