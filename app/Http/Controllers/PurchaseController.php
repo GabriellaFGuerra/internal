@@ -13,8 +13,8 @@ class PurchaseController extends Controller
     public function index()
     {
 
-        $categories = Category::orderBy('category')->all();
-        $projects = Project::orderBy('project')->all();
+        $categories = Category::orderBy('category')->get();
+        $projects = Project::orderBy('project')->get();
         $purchases = Purchase::with('category')->paginate(10);
         return view('purchases.index')->with(['purchases' => $purchases, 'categories' => $categories, 'projects' => $projects]);
     }
