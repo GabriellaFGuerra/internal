@@ -66,6 +66,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/{name}/diary/{entry_id}', 'ProjectController@readEntry')->name('readEntry');
         Route::get('/{id}/{name}/diary/edit/{entry}', 'ProjectController@editEntry')->name('editEntryForm');
         Route::post('/{id}/{name}/diary/edit/{entry}', 'ProjectController@updateEntry')->name('editEntry');
+        Route::get('/{id}/{name}/diary/{entry}/download/{id_image}', 'ProjectController@downloadImage')->name('downloadImage');
+        Route::get('/{id}/{name}/diary/{entry}/delete-image/{id_image}', 'ProjectController@deleteImage')->name('deleteImage');
     });
 
     Route::get('/image/{image_id}', 'ProjectController@showImage')->name('showImage');

@@ -140,7 +140,7 @@ class ProjectController extends Controller
         $save_entry->save();
 
         if ($request->hasFile('files')) {
-            foreach ($request->images as $image) {
+            foreach ($request->file('files') as $image) {
                 $imagename = str_replace(' ', '_', $project->project . '_entry_' . $save_entry->id . '_' . Carbon::now()->format('d-m-Y_H-i-s') . '_image_' . $image->getClientOriginalName());
                 Storage::disk('public')->put('/images/' . $imagename, file_get_contents($image));
                 $save_image = new Image;
@@ -152,5 +152,19 @@ class ProjectController extends Controller
         }
 
         return redirect()->route('project', ['id' => $id, 'name' => $name])->with(['status' => 'Entrada editada com sucesso.']);
+    }
+
+    public function downloadImage($id, $name, $entry, $id_image)
+    {
+        $image = Image::find($id_image);
+        return Storage::download('public/' . $image->image_path);
+    }
+
+    public function deleteImage($id, $name, $entry, $id_image)
+    {
+        $delete = Image::find($id_image);
+        Storage::delete($delete->image_path);
+        $delete->delete();
+        return redirect()->route('readEntry', ['id' => $id, 'name' => $name, 'entry_id' => $entry])->with('status', 'Imagem deletada com sucesso.');
     }
 }
