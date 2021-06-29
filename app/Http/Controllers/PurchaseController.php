@@ -21,8 +21,8 @@ class PurchaseController extends Controller
 
     public function create()
     {
-        $categories = Category::orderBy('category')->all();
-        $projects = Project::orderBy('project')->all();
+        $categories = Category::orderBy('category')->get();
+        $projects = Project::orderBy('project')->get();
         return view('purchases.add', ['categories' => $categories, 'projects' => $projects]);
     }
 
