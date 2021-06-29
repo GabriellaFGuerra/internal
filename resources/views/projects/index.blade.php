@@ -30,9 +30,12 @@
                                 <p class="font-bold">
                                     {{ $project->user->firstname . ' ' . $project->user->lastname }}
                                 </p>
-                                <a href="{{ route('deleteProject', ['id' => $project->id]) }}" class="hover:no-underline">
-                                    <span class="text-red-700 hover:text-red-900">Deletar projeto</span>
-                                </a>
+                                @if ($project->user_id == Auth::user()->id or Auth::user()->role_id <= 2)
+                                    <a href="{{ route('deleteProject', ['id' => $project->id]) }}"
+                                        class="hover:no-underline">
+                                        <span class="text-red-700 hover:text-red-900">Deletar projeto</span>
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
