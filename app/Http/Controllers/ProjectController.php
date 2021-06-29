@@ -7,6 +7,7 @@ use App\Models\Image;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Purchase;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -166,5 +167,16 @@ class ProjectController extends Controller
         Storage::delete($delete->image_path);
         $delete->delete();
         return redirect()->route('readEntry', ['id' => $id, 'name' => $name, 'entry_id' => $entry])->with('status', 'Imagem deletada com sucesso.');
+    }
+
+    public function delete($id)
+    {
+        $delete = Project::find($id);
+        if ($delete->user_id == Auth::user()->id) {
+            $delete->delete();
+            return redirect()->route('projects')->with('status', 'Projeto deletado com sucesso.');
+        } else {
+            return redirect()->route('projects')->with('error', 'Você não tem permissão para deletar este projeto.');
+        }
     }
 }

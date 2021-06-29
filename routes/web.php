@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', 'ProjectController@index')->name('projects')->middleware('roleCheck');
         Route::get('/new', 'ProjectController@create')->name('createProject');
         Route::post('/new', 'ProjectController@store')->name('storeProject');
+        Route::get('/delete/{id}', 'ProjectController@delete')->name('deleteProject');
         Route::get('/{id}/{name}', 'ProjectController@show')->name('project');
         Route::get('/{id}/{name}/image/{img}', 'ProjectController@showImages')->name('showImage');
         Route::get('/{id}/{name}/diary', 'ProjectController@createEntry')->name('createEntry');
