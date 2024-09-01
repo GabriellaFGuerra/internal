@@ -9,9 +9,9 @@ use App\Models\User;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -19,140 +19,143 @@ class ProjectController extends Controller
     {
         $users = User::all();
         $projects = Project::with('user')->get();
-        return view('projects.index')->with(['users' => $users, 'projects' => $projects]);
+        return view('projects.index', compact('users', 'projects'));
     }
 
     public function create()
     {
         $users = User::all();
-        return view('projects.add')->with(['users' => $users]);
+        return view('projects.add', compact('users'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'project' => 'required',
-            'address' => 'required',
-            'zipcode' => 'required',
-            'district' => 'required',
-            'stage' => 'required',
-            'user_id' => 'required'
+            'project' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'zipcode' => ['required', 'string', 'max:8'],
+            'district' => ['required', 'string', 'max:255'],
+            'stage' => ['required', 'string', 'max:255'],
+            'user_id' => ['required', 'integer', Rule::exists(User::class, 'id')],
         ]);
 
-        $save = new Project;
-        $save->project = preg_replace('/\s+/', '_', strtolower($request->project));
-        $save->address = $request->address;
-        $save->zipcode = $request->zipcode;
-        $save->district = $request->district;
-        $save->stage = $request->stage;
-        $save->user_id = $request->user_id;
-        $save->save();
+        $project = Project::create([
+            'project' => preg_replace('/\s+/', '_', strtolower($request->project)),
+            'address' => $request->address,
+            'zipcode' => $request->zipcode,
+            'district' => $request->district,
+            'stage' => $request->stage,
+            'user_id' => $request->user_id,
+        ]);
 
-        return view('projects.index')->with(['users' => User::all(), 'projects' => Project::all(), 'status' => 'Projeto criado com sucesso.']);
+        return redirect()->route('projects')->with('status', 'Projeto criado com sucesso.');
     }
 
     public function show($id, $name)
     {
         $project = Project::where('id', $id)->with('blueprints', 'documents')->first();
         $purchases = Purchase::where('project_id', $id)->paginate(10);
-        if ($project) {
-            return view('projects.project', ['name' => $name, 'project' => $project, 'purchases' => $purchases]);
-        } else {
+
+        if (!$project) {
             return redirect()->route('projects')->withErrors(['error' => 'Projeto não encontrado.']);
         }
+
+        return view('projects.project', compact('project', 'purchases', 'name'));
     }
+
     public function createEntry($id, $name)
     {
-        $info = Project::where('id', $id)->first();
-        if ($info) {
-            return view('diary.newentry', ['id' => $id, 'name' => $name, 'project' => $info]);
-        } else {
+        $project = Project::where('id', $id)->first();
+
+        if (!$project) {
             return redirect()->route('projects')->withErrors(['error' => 'Projeto não encontrado.']);
         }
+
+        return view('diary.newentry', compact('project', 'id', 'name'));
     }
 
     public function storeEntry($id, $name, Request $request)
     {
         $request->validate([
-            'entry_text' => 'required',
-            'files.*' => 'nullable|mimes:jpg,jpeg,png'
+            'entry_text' => ['required', 'string'],
+            'files.*' => ['nullable', 'mimes:jpg,jpeg,png'],
         ]);
 
         $project = Project::where('id', $id)->first();
-        $save_entry = new Diary;
-
-        $save_entry->entry_datetime = Carbon::now();
-        $save_entry->entry_text = $request->entry_text;
-        $save_entry->project_id = $project->id;
-        $save_entry->save();
+        $entry = Diary::create([
+            'entry_text' => $request->entry_text,
+            'entry_datetime' => Carbon::now(),
+            'project_id' => $project->id,
+        ]);
 
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $image) {
-                $imagename = str_replace(' ', '_', $project->project . '_entry_' . $save_entry->id . '_' . Carbon::now()->format('d-m-Y_H-i-s') . '_image_' . $image->getClientOriginalName());
+                $imagename = str_replace(' ', '_', $project->project . '_entry_' . $entry->id . '_' . Carbon::now()->format('d-m-Y_H-i-s') . '_image_' . $image->getClientOriginalName());
                 Storage::disk('public')->put('/images/' . $imagename, file_get_contents($image));
-                $save_image = new Image;
-                $save_image->image_name = $imagename;
-                $save_image->image_path = 'images/' . $imagename;
-                $save_image->entry_id = $save_entry->id;
-                $save_image->save();
+                $image = Image::create([
+                    'image_name' => $imagename,
+                    'image_path' => 'images/' . $imagename,
+                    'entry_id' => $entry->id,
+                ]);
             }
         }
 
-        return redirect()->route('project', ['id' => $id, 'name' => $name])->with(['status' => 'Entrada adicionada com sucesso.']);
+        return redirect()->route('project', ['id' => $id, 'name' => $name])->with('status', 'Entrada adicionada com sucesso.');
     }
 
     public function readEntry($id, $name, $entry_id)
     {
-        $info = Project::where('id', $id)->first();
-        if ($info) {
-            $entry_read = Diary::where('id', $entry_id)->first();
-            $images = Image::where('entry_id', $entry_read->id)->get();
-            return view('diary.read', ['id' => $id, 'name' => $name, 'project' => $info, 'diary' => $entry_read, 'images' => $images]);
-        } else {
-            return redirect()->route('projects')->withErrors(['error' => 'Projeto não encontrado.']);
+        $project = Project::where('id', $id)->first();
+        $entry = Diary::where('id', $entry_id)->first();
+
+        if (!$project || !$entry) {
+            return redirect()->route('projects')->withErrors(['error' => 'Projeto ou entrada não encontrado.']);
         }
+
+        $images = Image::where('entry_id', $entry->id)->get();
+
+        return view('diary.read', compact('project', 'entry', 'images', 'name', 'id'));
     }
 
     public function editEntry($id, $name, $entry)
     {
-        $p = Project::where('id', $id)->first();
-        $e = Diary::where('id', $entry)->where('project_id', $p->id)->first();
+        $project = Project::where('id', $id)->first();
+        $entry = Diary::where('id', $entry)->where('project_id', $project->id)->first();
 
-        if ($e) {
-            return view('diary.editentry', ['id' => $id, 'name' => $name, 'entry' => $entry, 'data' => $e]);
-        } else {
-            return redirect()->route('projects')->withErrors(['error' => 'Projeto não encontrado.']);
+        if (!$project || !$entry) {
+            return redirect()->route('projects')->withErrors(['error' => 'Projeto ou entrada não encontrado.']);
         }
+
+        return view('diary.editentry', compact('project', 'entry', 'id', 'name'));
     }
 
     public function updateEntry($id, $name, $entry, Request $request)
     {
         $request->validate([
-            'entry_text' => 'required',
-            'files.*' => 'nullable|mimes:jpg,jpeg,png'
+            'entry_text' => ['required', 'string'],
+            'files.*' => ['nullable', 'mimes:jpg,jpeg,png'],
         ]);
 
         $project = Project::where('id', $id)->first();
-        $save_entry = Diary::where('id', $entry)->where('project_id', $project->id)->first();
+        $entry = Diary::where('id', $entry)->where('project_id', $project->id)->first();
 
-        $save_entry->entry_datetime = Carbon::now();
-        $save_entry->entry_text = $request->entry_text;
-        $save_entry->project_id = $project->id;
-        $save_entry->save();
+        $entry->entry_text = $request->entry_text;
+        $entry->entry_datetime = Carbon::now();
+        $entry->save();
 
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $image) {
-                $imagename = str_replace(' ', '_', $project->project . '_entry_' . $save_entry->id . '_' . Carbon::now()->format('d-m-Y_H-i-s') . '_image_' . $image->getClientOriginalName());
+                $imagename = str_replace(' ', '_', $project->project . '_entry_' . $entry->id . '_' . Carbon::now()->format('d-m-Y_H-i-s') . '_image_' . $image->getClientOriginalName());
                 Storage::disk('public')->put('/images/' . $imagename, file_get_contents($image));
-                $save_image = new Image;
-                $save_image->image_name = $imagename;
-                $save_image->image_path = 'images/' . $imagename;
-                $save_image->entry_id = $save_entry->id;
-                $save_image->save();
+                $image = Image::create([
+                    'image_name' => $imagename,
+                    'image_path' => 'images/' . $imagename,
+                    'entry_id' => $entry->id,
+                ]);
             }
         }
 
-        return redirect()->route('project', ['id' => $id, 'name' => $name])->with(['status' => 'Entrada editada com sucesso.']);
+        return redirect()->route('project', ['id' => $id, 'name' => $name])->with('status', 'Entrada editada com sucesso.');
     }
 
     public function downloadImage($id, $name, $entry, $id_image)
@@ -163,20 +166,22 @@ class ProjectController extends Controller
 
     public function deleteImage($id, $name, $entry, $id_image)
     {
-        $delete = Image::find($id_image);
-        Storage::delete($delete->image_path);
-        $delete->delete();
+        $image = Image::find($id_image);
+        Storage::delete($image->image_path);
+        $image->delete();
         return redirect()->route('readEntry', ['id' => $id, 'name' => $name, 'entry_id' => $entry])->with('status', 'Imagem deletada com sucesso.');
     }
 
     public function delete($id)
     {
-        $delete = Project::find($id);
-        if ($delete->user_id == Auth::user()->id) {
-            $delete->delete();
-            return redirect()->route('projects')->with('status', 'Projeto deletado com sucesso.');
-        } else {
+        $project = Project::find($id);
+
+        if ($project->user_id != Auth::user()->id) {
             return redirect()->route('projects')->with('error', 'Você não tem permissão para deletar este projeto.');
         }
+
+        $project->delete();
+        return redirect()->route('projects')->with('status', 'Projeto deletado com sucesso.');
     }
 }
+

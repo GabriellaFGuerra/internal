@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Validator;
+use Illuminate\Validation\Rule;
 
 class DocumentController extends Controller
 {
@@ -15,70 +14,66 @@ class DocumentController extends Controller
     {
         $documents = Document::paginate(10);
         $projects = Project::all();
-        return view('documents.index', ['documents' => $documents, 'projects' => $projects]);
+        return view('documents.index', compact('documents', 'projects'));
     }
 
     public function create()
     {
         $projects = Project::all();
-        return view('documents.add', ['projects' => $projects]);
+        return view('documents.add', compact('projects'));
     }
 
     public function upload(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'files' => 'required|file|mimes:csv,txt,xlx,xls,pdf,docx,pdf',
-            'project_id' => 'required'
+            'name' => ['required'],
+            'files' => ['required', 'file', 'mimes:csv,txt,xlx,xls,pdf,docx'],
+            'project_id' => ['required', Rule::exists(Project::class, 'id')],
         ]);
 
-        $project = Project::find($request->project_id);
+        $project = Project::findOrFail($request->project_id);
 
         $doc = $request->file('files');
         $subject = preg_replace('/[^A-Za-z0-9\-]\s+/', '_', $request->name);
         $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $subject) . '.' . $doc->getClientOriginalExtension();
-        $path = '/documents/' . $project->project . '/' . $name;
+        $path = 'documents/' . $project->project . '/' . $name;
         Storage::disk('public')->put($path, file_get_contents($doc));
-        $save = new Document;
-
-        $save->document_name = $name;
-        $save->document_path = $path;
-        $save->project_id = $project->id;
-        $save->save();
+        Document::create([
+            'document_name' => $name,
+            'document_path' => $path,
+            'project_id' => $project->id,
+        ]);
         return redirect('documents')->with('status', 'Documento adicionado com sucesso.');
     }
 
-    public function download($id)
+    public function download(Document $document)
     {
-        $doc = Document::find($id);
-        return Storage::download('public/' . $doc->document_path);
+        return Storage::download('public/' . $document->document_path);
     }
 
-    public function delete($id)
+    public function delete(Document $document)
     {
-        $doc = Document::find($id);
-        $doc->delete();
+        $document->delete();
         return back()->with('status', 'Arquivo deletado com sucesso.');
     }
 
     public function trash()
     {
         $documents = Document::onlyTrashed()->get();
-        return view('documents.trash')->with('documents', $documents);
+        return view('documents.trash', compact('documents'));
     }
 
-    public function restore($id)
+    public function restore(Document $document)
     {
-        $doc = Document::onlyTrashed()->find($id);
-        $doc->restore();
+        $document->restore();
         return back()->with('status', 'Arquivo restaurado com sucesso.');
     }
 
-    public function permadelete($id)
+    public function permadelete(Document $document)
     {
-        $doc = Document::onlyTrashed()->find($id);
-        Storage::delete($doc->document_path);
-        $doc->forceDelete();
+        Storage::delete($document->document_path);
+        $document->forceDelete();
         return back()->with('status', 'Arquivo deletado permanentemente com sucesso.');
     }
 }
+

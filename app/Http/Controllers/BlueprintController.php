@@ -6,67 +6,82 @@ use App\Models\Blueprint;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BlueprintController extends Controller
 {
     public function index()
     {
         $projects = Project::all();
-        return view('blueprints.index')->with(['projects' => $projects]);
+        return view('blueprints.index', compact('projects'));
     }
 
     public function show($id_project, $project_name)
     {
-        $projects = Project::all();
-        $project = $projects->find($id_project);
-        $blueprints = $project->blueprints()->where('project_id', $id_project)->get();
+        $project = Project::findOrFail($id_project);
+        $blueprints = $project->blueprints;
 
-        if ($blueprints->isEmpty()) {
-            return view('blueprints.blueprint', ['id_project' => $id_project, 'project_name' => $project_name, 'blueprints' => $blueprints, 'no_blueprint' => 'Nenhuma planta vinculada a este projeto.']);
-        } else {
-            return view('blueprints.blueprint', ['id_project' => $id_project, 'project_name' => $project_name, 'blueprints' => $blueprints]);
-        }
+        return view('blueprints.blueprint', [
+            'id_project' => $id_project,
+            'project_name' => $project_name,
+            'blueprints' => $blueprints,
+            'no_blueprint' => $blueprints->isEmpty() ? 'Nenhuma planta vinculada a este projeto.' : null,
+        ]);
     }
 
     public function create($id_project, $project_name)
     {
-        return view('blueprints.add', ['id_project' => $id_project, 'project_name' => $project_name]);
+        return view('blueprints.add', [
+            'id_project' => $id_project,
+            'project_name' => $project_name,
+        ]);
     }
 
-    public function store($id_project, $project_name, Request $request)
+    public function store(Request $request, $id_project, $project_name)
     {
         $request->validate([
             'name' => 'required',
-            'files.*' => 'required|image|mimes:jpg,jpeg,png'
+            'files.*' => 'required|image|mimes:jpg,jpeg,png',
         ]);
+
         if ($request->hasFile('files')) {
-            $loop = 0;
+            $loop = 1;
             foreach ($request->file('files') as $image) {
-                $subject = preg_replace('/[^A-Za-z0-9\-]\s+/', '_', $request->name);
-                $name = transliterator_transliterate('Any-Latin; Latin-ASCII', $subject) .  '_' . $loop++ . '.' . $image->getClientOriginalExtension();
-                $path = '/blueprints/' . $project_name . '/' . $name;
-                Storage::disk('public')->put($path, file_get_contents($image));
-                $save = new Blueprint;
-                $save->blueprint = $name;
-                $save->blueprint_path = $path;
-                $save->project_id = $id_project;
-                $save->save();
+                $subject = Str::slug($request->name);
+                $name = "{$subject}_{$loop}.{$image->getClientOriginalExtension()}";
+                $image->storeAs("public/blueprints/{$project_name}", $name);
+                Blueprint::create([
+                    'blueprint' => $name,
+                    'blueprint_path' => "blueprints/{$project_name}/{$name}",
+                    'project_id' => $id_project,
+                ]);
+                $loop++;
             }
         }
-        return redirect()->route('blueprint', ['id_project' => $id_project, 'project_name' => $project_name])->with('status', 'Planta adicionada com sucesso.');
+
+        return redirect()->route('blueprint', [
+            'id_project' => $id_project,
+            'project_name' => $project_name,
+        ])->with('status', 'Planta adicionada com sucesso.');
     }
 
     public function download($id_project, $project_name, $id)
     {
-        $blueprint = Blueprint::find($id);
-        return Storage::download('public/' . $blueprint->blueprint_path);
+        $blueprint = Blueprint::findOrFail($id);
+
+        return Storage::download("public/{$blueprint->blueprint_path}");
     }
 
     public function delete($id_project, $project_name, $id)
     {
-        $delete = Blueprint::find($id);
-        Storage::delete($delete->blueprint_path);
+        $delete = Blueprint::findOrFail($id);
+        Storage::delete("public/{$delete->blueprint_path}");
         $delete->delete();
-        return redirect()->route('blueprint', ['id_project' => $id_project, 'project_name' => $project_name])->with('status', 'Planta deletada com sucesso.');
+
+        return redirect()->route('blueprint', [
+            'id_project' => $id_project,
+            'project_name' => $project_name,
+        ])->with('status', 'Planta deletada com sucesso.');
     }
 }
+

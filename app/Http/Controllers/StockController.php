@@ -11,71 +11,49 @@ class StockController extends Controller
 
     public function index()
     {
-        $items = Stock::with('category')->paginate(10);
-        return view('stock.index')->with('items', $items);
+        return view('stock.index', [
+            'items' => Stock::with('category')->paginate(10),
+        ]);
     }
 
     public function create()
     {
-        $categories = Category::all();
-        return view('stock.add')->with('categories', $categories);
+        return view('stock.add', [
+            'categories' => Category::all(),
+        ]);
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'quantity' => 'required|numeric',
-            'withdrawn' => 'required|nullable|date',
-            'returned' => 'required|nullable|date',
-            'category_id' => 'nullable',
-        ]);
-
-        $save = new Stock;
-        $save->item = $request->name;
-        $save->quantity = $request->quantity;
-        $save->withdrawn_datetime = $request->withdrawn;
-        $save->returned_datetime = $request->returned;
-        $save->category_id = $request->category_id;
+        $save = new Stock($request->validated());
         $save->save();
-        return redirect('stock')->with('status', 'Item adicionado com sucesso.');
+
+        return redirect()->route('stock')->with('status', 'Item adicionado com sucesso.');
     }
 
-    public function edit($id)
+    public function edit(Stock $stock)
     {
-        $categories = $this->showCategories();
-        $item = Stock::find($id);
-        return view('stock.edit', ['categories' => $categories, 'item' => $item]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required',
-            'quantity' => 'required|numeric',
-            'withdrawn' => 'nullable|date',
-            'returned' => 'nullable|date',
-            'category_id' => 'nullable',
+        return view('stock.edit', [
+            'categories' => Category::all(),
+            'item' => $stock,
         ]);
-
-        $save = Stock::find($id);
-        $save->item = $request->name;
-        $save->quantity = $request->quantity;
-        $save->withdrawn_datetime = $request->withdrawn;
-        $save->returned_datetime = $request->returned;
-        $save->category_id = $request->category_id;
-        $save->save();
-        return redirect('stock')->with('status', 'Item atualizado com sucesso.');
     }
 
-    public function delete($id)
+    public function update(Request $request, Stock $stock)
     {
-        $delete = Stock::find($id);
+        $stock->update($request->validated());
+
+        return redirect()->route('stock')->with('status', 'Item atualizado com sucesso.');
+    }
+
+    public function destroy(Stock $stock)
+    {
         try {
-            $delete->delete();
-            return redirect('stock')->with('status', 'Item deletado com sucesso.');
+            $stock->delete();
+            return redirect()->route('stock')->with('status', 'Item deletado com sucesso.');
         } catch (\Exception $e) {
-            return redirect('stock')->with('error', $e->getMessage());
+            return back()->with('error', $e->getMessage());
         }
     }
 }
+
