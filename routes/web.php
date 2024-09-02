@@ -22,7 +22,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/recovery/{email}/{token}', [RecoveryController::class, 'index'])->name('recovery');
     Route::post('/recovery', [RecoveryController::class, 'recover'])->name('recover');
 
-    Route::get('/register', [UserController::class, 'index'])->name('register');
+    Route::get('/register', [UserController::class, 'create'])->name('register');
     Route::post('/register', [UserController::class, 'store'])->name('register.store');
 });
 

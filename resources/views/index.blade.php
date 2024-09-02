@@ -5,7 +5,6 @@
         .hover-text:hover {
             color: #020F2F;
         }
-
     </style>
     <div class="login min-h-screen flex flex-col justify-center sm:py-12">
         <div class="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
